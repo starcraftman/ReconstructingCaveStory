@@ -63,7 +63,7 @@ using std::string;
  */
 
 /****************** Class Definitions *********************/
-
+#include "game.h"
 
 /**************** Static Data Definitions *****************/
 
@@ -76,7 +76,7 @@ using std::string;
  * Main loop of the function.
  */
 int main(void) {
-
+    Game game;
 	return 0;
 }
 
