@@ -11,6 +11,7 @@ import ycm_core
 # CHANGE THIS LIST OF FLAGS. YES, THIS IS THE DROID YOU HAVE BEEN LOOKING FOR.
 FLAGS = [
     # Debug warnings and general D flags here.
+    # C Flags
     '-ggdb',
     '-Wall',
     '-Wextra',
@@ -18,6 +19,9 @@ FLAGS = [
     '-Winline',
     '-pedantic',
     '-fexceptions',
+    # C++ Flags
+    -Weffc++
+    -D_REENTRANT
     # THIS IS IMPORTANT! Without a "-std=<something>" flag, clang won't know
     # which language to use when compiling headers. So it will guess. Badly.
     # So C++ headers will be compiled as C headers.
