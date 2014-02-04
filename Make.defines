@@ -28,7 +28,7 @@ CC:=gcc
 CXX:=g++
 
 # Include directories, append as needed. Format -I./dir -I/dir/to/files
-INC_DIRS:=-I$(DIR)/libs/cunit/include -I$(DIR)/libs/cppunit/include
+INC_DIRS:=-I$(DIR)/libs/cunit/include -I$(DIR)/libs/cppunit/include -I$(DIR)/libs/SDL1/include
 
 # Generic Flags
 # To profile: 1) Compile/link with PROF flag. 2) Run file as normally to make gmon.out. 3) Run command: gprof program gmon.out > program.txt. Read output text.
@@ -44,7 +44,7 @@ F_DEBUG:=-ggdb -Wall -Wextra -Winline -pedantic
 CFLAGS:=--std=gnu99
 CXXFLAGS:=-Weffc++
 CPPFLAGS=$(INC_DIRS) $(F_DEBUG) $(F_DIRECT)
-LDFLAGS:=-L$(DIR)/libs/cunit/lib -L$(DIR)/libs/cppunit/lib
+LDFLAGS:=-L$(DIR)/libs/cunit/lib -L$(DIR)/libs/cppunit/lib -L$(DIR)/libs/SDL1/lib
 LIBFLAGS:=$(F_DEBUG) -fPIC
 ARFLAGS:=-rv
 
@@ -57,10 +57,10 @@ EXT_OBJ:=.o
 EXT_ARC:=.a
 
 # Common libs
-LIBS:=-lpthread -lm -ldl
+LIBS:=-lpthread -lm -lSDL
 TESTLIBS:=-lcppunit -lcunit
 BOOSTLIBS:=-lboost_date_time -lboost_filesystem -lboost_graph -lboost_iostreams -lboost_math_c99 -lboost_math_tr1 -lboost_mpi -lboost_prg_exec_monitor -lboost_program_options -lboost_python -lboost_regex -lboost_serialization -lboost_signals -lboost_system -lboost_thread -lboost_unit_test_framework -lboost_wave
-LDLIBS:=$(TESTLIBS)
+LDLIBS:=$(LIBS) $(TESTLIBS)
 
 # OS Strings
 LIN64:=linux64
@@ -74,7 +74,7 @@ FILES_TO_CLEAN:=*.o *.a *.out *.exe *~ temp.* *.gcov *.gcda *.gcno
 # 	$(CC) $(CPPFLAGS) $(CFLAGS) -c
 # 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c
 # 	$(CC) $(LDFLAGS) n.o $(LOADLIBES) $(LDLIBS)
- 	
+
 # ------------------------ Reference Notes -----------------------------------
 # Template for all src Makefiles. Use .cc for c++, .c for c.
 # Useful options to make:
