@@ -1,6 +1,0 @@
-<map id="TestResult" name="TestResult">
-<area shape="rect" id="node2" href="$class_synchronized_object.html" title="Base class for synchronized object. " alt="" coords="16,120,155,149"/>
-<area shape="rect" id="node4" href="$class_synchronized_object_1_1_synchronization_object.html" title="Abstract synchronization object (mutex) " alt="" coords="5,6,165,53"/>
-<area shape="rect" id="node6" href="$class_protector_chain.html" title="Protector chain (Implementation). Implementation detail. " alt="" coords="179,120,288,149"/>
-<area shape="rect" id="node8" href="$class_protector.html" title="Protects one or more test case run. " alt="" coords="196,15,271,44"/>
-</map>
