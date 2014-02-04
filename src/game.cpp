@@ -63,7 +63,7 @@ using std::string;
  */
 
 /****************** Class Definitions *********************/
-#include "game.hpp"
+
 
 /**************** Static Data Definitions *****************/
 
@@ -76,9 +76,8 @@ using std::string;
  * Main loop of the function.
  */
 int main(void) {
-    Game game(2);
-    cout << "Hello game has num " << game.getNum() << "." << endl;
-    return 0;
+
+	return 0;
 }
 
 

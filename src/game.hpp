@@ -1,13 +1,12 @@
-/**
- * Template C++ file.
- * Function with references to pointers: func(int *&ptr);
- */
+#ifndef _GAME_HPP_
+#define _GAME_HPP_
+
 /********************* Header Files ***********************/
 /* C++ Headers */
-#include <iostream> /* Input/output objects. */
+//#include <iostream> /* Input/output objects. */
 //#include <fstream> /* File operations. */
 //#include <sstream> /* String stream. */
-#include <string> /* C++ String class. */
+//#include <string> /* C++ String class. */
 //#include <new> /* Defines bad_malloc exception, new functions. */
 //#include <typeinfo> /* Casting header. */
 //#include <exception> /* Top level exception header. */
@@ -26,8 +25,6 @@
 //#include <utility> // Has pair for map.
 //#include <algorithm>
 //#include <numeric>
-//#include <functional> // Functional objects.
-//#include <iterator> // Contains back_inserter function and like.
 
 /* C Headers */
 //#include <cstdlib>
@@ -43,12 +40,6 @@
 /******************* Constants/Macros *********************/
 
 
-/**************** Namespace Declarations ******************/
-using std::cin;
-using std::cout;
-using std::endl;
-using std::string;
-
 /******************* Type Definitions *********************/
 /* For enums: Try to namesapce the common elements.
  * typedef enum {
@@ -62,27 +53,16 @@ using std::string;
  * } name_t;
  */
 
-/****************** Class Definitions *********************/
-#include "game.hpp"
+/****************** Class Declaration *********************/
+class Game {
+public:
+    Game(int n) : num(n) {}
+    int getNum() { return num; }
+private:
+    int num;
+};
 
-/**************** Static Data Definitions *****************/
-
-
-/****************** Static Functions **********************/
-
-
-/****************** Global Functions **********************/
-/**
- * Main loop of the function.
- */
-int main(void) {
-    Game game(2);
-    cout << "Hello game has num " << game.getNum() << "." << endl;
-    return 0;
-}
+/********************* Prototypes *************************/
 
 
-/* Notes:
- * Force call to use another version of virtual function: baseP->Item_base::net_price(42);
- *
- */
+#endif /* _GAME_HPP_ */
