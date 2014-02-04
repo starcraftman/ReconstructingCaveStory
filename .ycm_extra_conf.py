@@ -20,8 +20,8 @@ FLAGS = [
     '-pedantic',
     '-fexceptions',
     # C++ Flags
-    -Weffc++
-    -D_REENTRANT
+    '-Weffc++',
+    '-D_REENTRANT',
     # THIS IS IMPORTANT! Without a "-std=<something>" flag, clang won't know
     # which language to use when compiling headers. So it will guess. Badly.
     # So C++ headers will be compiled as C headers.
@@ -37,6 +37,8 @@ FLAGS = [
     # Includes follow.
     '-I',
     './lib/cunit/include'
+    '-I',
+    './lib/cppunit1.13.2/include'
 ]
 
 
