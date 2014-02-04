@@ -28,7 +28,7 @@ CC:=gcc
 CXX:=g++
 
 # Include directories, append as needed. Format -I./dir -I/dir/to/files
-INC_DIRS:=-I$(DIR)/lib/cunit/include -I$(DIR)/lib/cppunit/include
+INC_DIRS:=-I$(DIR)/libs/cunit/include -I$(DIR)/libs/cppunit/include
 
 # Generic Flags
 # To profile: 1) Compile/link with PROF flag. 2) Run file as normally to make gmon.out. 3) Run command: gprof program gmon.out > program.txt. Read output text.
@@ -59,7 +59,7 @@ EXT_ARC:=.a
 LIBS:=-lpthread -lm -ldl
 TESTLIBS:=-lcppunit -lcunit
 BOOSTLIBS:=-lboost_date_time -lboost_filesystem -lboost_graph -lboost_iostreams -lboost_math_c99 -lboost_math_tr1 -lboost_mpi -lboost_prg_exec_monitor -lboost_program_options -lboost_python -lboost_regex -lboost_serialization -lboost_signals -lboost_system -lboost_thread -lboost_unit_test_framework -lboost_wave
-LDLIBS=$(TESTLIBS)
+LDLIBS:=$(TESTLIBS)
 
 # OS Strings
 LIN64:=linux64
