@@ -36,9 +36,11 @@ FLAGS = [
     'c++',
     # Includes follow.
     '-I',
-    './lib/cunit/include'
+    './lib/cunit/include',
     '-I',
-    './lib/cppunit1.13.2/include'
+    './lib/cppunit1.13.2/include',
+    '-I',
+    '/usr/include',
 ]
 
 
