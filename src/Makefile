@@ -3,18 +3,24 @@ include ../Make.defines
 .PHONY: all clean
 
 # Target executables to make.
-T1:=main
+SOURCES:=main.cpp game.cpp
+OBJDIR=$(DIR)/gen
+EXE:=$(OBJDIR)/main
+OBJS = $(patsubst %.cpp, $(OBJDIR)/%.o, $(SOURCES))
 
 # Headers and objects for the executables, currently assumes only 1 of each.
-H1:=$(addsuffix $(EXT_HXX), $(T1))
-OBJ1:=$(addsuffix $(EXT_OBJ), $(T1))
+#H1:=$(addsuffix $(EXT_HXX), $(T1))
 
-TARGETS:=$(T1)
+all: $(EXE)
 
-all: $(TARGETS)
+$(EXE): $(OBJS)
+	$(CXX) $(LDFLAGS) -o $@ $(OBJS) $(LDLIBS)
+
+$(OBJDIR)/%.o: %.cpp
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(TARGETS) $(FILES_TO_CLEAN)
+	rm -f $(EXE) $(OBJS) $(FILES_TO_CLEAN)
 
 # Default Rules:
 # 	$(CC) $(CPPFLAGS) $(CFLAGS) -c

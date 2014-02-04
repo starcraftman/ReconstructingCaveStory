@@ -77,7 +77,7 @@ using std::string;
  * Main loop of the function.
  */
 int main(void) {
-    Game game(2);
+    Game game;
     cout << "Hello game has num " << game.getNum() << "." << endl;
     return 0;
 }

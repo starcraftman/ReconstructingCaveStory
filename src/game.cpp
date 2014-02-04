@@ -39,6 +39,7 @@
 //#include <cassert>
 
 /* Project Headers */
+#include "game.hpp"
 
 /******************* Constants/Macros *********************/
 
@@ -63,7 +64,13 @@ using std::string;
  */
 
 /****************** Class Definitions *********************/
+Game::Game(int num) {
+    this->num = num;;
+}
 
+Game::~Game() {
+
+}
 
 /**************** Static Data Definitions *****************/
 
@@ -72,13 +79,6 @@ using std::string;
 
 
 /****************** Global Functions **********************/
-/**
- * Main loop of the function.
- */
-int main(void) {
-
-	return 0;
-}
 
 
 /* Notes:

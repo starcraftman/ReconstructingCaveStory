@@ -56,7 +56,8 @@
 /****************** Class Declaration *********************/
 class Game {
 public:
-    Game(int n) : num(n) {}
+    Game(int num=22);
+    ~Game();
     int getNum() { return num; }
 private:
     int num;
