@@ -39,6 +39,7 @@
 //#include <cassert>
 
 /* Project Headers */
+#include "game.hpp"
 
 /******************* Constants/Macros *********************/
 
@@ -63,7 +64,7 @@ using std::string;
  */
 
 /****************** Class Definitions *********************/
-#include "game.hpp"
+
 
 /**************** Static Data Definitions *****************/
 
