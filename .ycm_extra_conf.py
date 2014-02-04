@@ -38,7 +38,7 @@ FLAGS = [
     '-I',
     './lib/cunit/include',
     '-I',
-    './lib/cppunit1.13.2/include',
+    './lib/cppunit/include',
     '-I',
     '/usr/include',
 ]
