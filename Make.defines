@@ -10,6 +10,8 @@ where-am-i = $(realpath $(dir $(CURDIR)/$(word $(words $(MAKEFILE_LIST)),$(MAKEF
 
 # Paths
 DIR:=$(call where-am-i)
+LDIR:=$(DIR)/libs
+ODIR:=$(DIR)/gen
 
 # Commands
 # Useful: --no-print-directory
@@ -28,7 +30,7 @@ CC:=gcc
 CXX:=g++
 
 # Include directories, append as needed. Format -I./dir -I/dir/to/files
-INC_DIRS:=-I$(DIR)/libs/cunit/include -I$(DIR)/libs/cppunit/include -I$(DIR)/libs/SDL1/include
+INC_DIRS:=-I$(LDIR)/cunit/include -I$(LDIR)/cppunit/include -I$(LDIR)/SDL1/include
 
 # Generic Flags
 # To profile: 1) Compile/link with PROF flag. 2) Run file as normally to make gmon.out. 3) Run command: gprof program gmon.out > program.txt. Read output text.
@@ -44,7 +46,7 @@ F_DEBUG:=-ggdb -Wall -Wextra -Winline -pedantic
 CFLAGS:=--std=gnu99
 CXXFLAGS:=-Weffc++
 CPPFLAGS=$(INC_DIRS) $(F_DEBUG) $(F_DIRECT)
-LDFLAGS:=-L$(DIR)/libs/cunit/lib -L$(DIR)/libs/cppunit/lib -L$(DIR)/libs/SDL1/lib
+LDFLAGS:=-L$(LDIR)/cunit/lib -L$(LDIR)/cppunit/lib -L$(LDIR)/SDL1/lib
 LIBFLAGS:=$(F_DEBUG) -fPIC
 ARFLAGS:=-rv
 

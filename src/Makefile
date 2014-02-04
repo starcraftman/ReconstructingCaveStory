@@ -1,12 +1,11 @@
 include ../Make.defines
 
-.PHONY: all clean
+.PHONY: all clean run
 
 # Target executables to make.
 SOURCES:=main.cpp game.cpp
-OBJDIR=$(DIR)/gen
-EXE:=$(OBJDIR)/main
-OBJS = $(patsubst %.cpp, $(OBJDIR)/%.o, $(SOURCES))
+EXE:=$(ODIR)/main.exe
+OBJS = $(patsubst %.cpp, $(ODIR)/%.o, $(SOURCES))
 
 # Headers and objects for the executables, currently assumes only 1 of each.
 #H1:=$(addsuffix $(EXT_HXX), $(T1))
@@ -16,11 +15,14 @@ all: $(EXE)
 $(EXE): $(OBJS)
 	$(CXX) $(LDFLAGS) -o $@ $(OBJS) $(LDLIBS)
 
-$(OBJDIR)/%.o: %.cpp
+$(ODIR)/%.o: %.cpp
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
 
+run: $(EXE)
+	$(EXE)
+
 clean:
-	rm -f $(EXE) $(OBJS) $(FILES_TO_CLEAN)
+	rm -f $(EXE) $(OBJS)
 
 # Default Rules:
 # 	$(CC) $(CPPFLAGS) $(CFLAGS) -c
