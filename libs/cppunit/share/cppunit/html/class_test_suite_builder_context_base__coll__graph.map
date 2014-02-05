@@ -1,0 +1,7 @@
+<map id="TestSuiteBuilderContextBase" name="TestSuiteBuilderContextBase">
+<area shape="rect" id="node2" href="$class_test_suite.html" title="A Composite of Tests.It runs a collection of test cases. Here is an example. " alt="" coords="21,165,99,195"/>
+<area shape="rect" id="node4" href="$class_test_composite.html" title="A Composite of Tests. " alt="" coords="5,85,115,115"/>
+<area shape="rect" id="node6" href="$class_test.html" title="Base class for all test objects.All test objects should be a subclass of Test. Some test objects..." alt="" coords="36,5,84,35"/>
+<area shape="rect" id="node8" href="$class_test_fixture_factory.html" title="Abstract TestFixture factory (Implementation). " alt="" coords="123,165,253,195"/>
+<area shape="rect" id="node10" href="$class_test_namer.html" title="Names a test or a fixture suite. " alt="" coords="277,165,363,195"/>
+</map>

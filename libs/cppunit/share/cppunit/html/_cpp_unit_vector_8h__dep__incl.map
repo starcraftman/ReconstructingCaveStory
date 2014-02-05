@@ -1,0 +1,24 @@
+<map id="CppUnitVector.h" name="CppUnitVector.h">
+<area shape="rect" id="node3" href="$_test_suite_8h.html" title="TestSuite.h" alt="" coords="667,83,755,112"/>
+<area shape="rect" id="node30" href="$_string_tools_8h.html" title="StringTools.h" alt="" coords="1607,83,1705,112"/>
+<area shape="rect" id="node38" href="$_mfc_test_runner_8h.html" title="MfcTestRunner.h" alt="" coords="1799,83,1921,112"/>
+<area shape="rect" id="node44" href="$_qt_test_runner_8h.html" title="QtTestRunner.h" alt="" coords="1999,83,2113,112"/>
+<area shape="rect" id="node5" href="$_helper_macros_8h.html" title="Macros intended to ease the definition of test suites. " alt="" coords="139,160,253,189"/>
+<area shape="rect" id="node7" href="$cppunit_2_test_runner_8h.html" title="TestRunner.h" alt="" coords="277,160,379,189"/>
+<area shape="rect" id="node15" href="$_text_test_runner_8cpp.html" title="TextTestRunner.cpp" alt="" coords="303,315,444,344"/>
+<area shape="rect" id="node19" href="$_test_plug_in_interface_8h.html" title="TestPlugInInterface.h" alt="" coords="457,160,604,189"/>
+<area shape="rect" id="node21" href="$_test_factory_registry_8cpp.html" title="TestFactoryRegistry.cpp" alt="" coords="628,160,793,189"/>
+<area shape="rect" id="node23" href="$_test_plug_in_default_impl_8cpp.html" title="TestPlugInDefaultImpl.cpp" alt="" coords="817,160,993,189"/>
+<area shape="rect" id="node25" href="$_test_suite_8cpp.html" title="TestSuite.cpp" alt="" coords="1017,160,1119,189"/>
+<area shape="rect" id="node27" href="$_test_suite_builder_context_8cpp.html" title="TestSuiteBuilderContext.cpp" alt="" coords="1143,160,1332,189"/>
+<area shape="rect" id="node9" href="$ui_2text_2_text_test_runner_8h.html" title="TextTestRunner.h" alt="" coords="119,237,244,267"/>
+<area shape="rect" id="node17" href="$_test_runner_8cpp.html" title="TestRunner.cpp" alt="" coords="268,237,383,267"/>
+<area shape="rect" id="node11" href="$_text_test_runner_8h.html" title="TextTestRunner.h" alt="" coords="5,315,131,344"/>
+<area shape="rect" id="node13" href="$cppunit_2ui_2text_2_test_runner_8h.html" title="TestRunner.h" alt="" coords="155,315,256,344"/>
+<area shape="rect" id="node32" href="$_compiler_outputter_8cpp.html" title="CompilerOutputter.cpp" alt="" coords="1356,160,1508,189"/>
+<area shape="rect" id="node34" href="$_string_tools_8cpp.html" title="StringTools.cpp" alt="" coords="1532,160,1644,189"/>
+<area shape="rect" id="node36" href="$_xml_element_8cpp.html" title="XmlElement.cpp" alt="" coords="1668,160,1785,189"/>
+<area shape="rect" id="node40" href="$cppunit_2ui_2mfc_2_test_runner_8h.html" title="TestRunner.h" alt="" coords="1809,160,1911,189"/>
+<area shape="rect" id="node42" href="$msvc6_2testrunner_2_test_runner_8h.html" title="TestRunner.h" alt="" coords="1935,160,2036,189"/>
+<area shape="rect" id="node46" href="$cppunit_2ui_2qt_2_test_runner_8h.html" title="TestRunner.h" alt="" coords="2060,160,2161,189"/>
+</map>

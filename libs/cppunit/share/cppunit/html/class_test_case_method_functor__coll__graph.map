@@ -1,0 +1,7 @@
+<map id="TestCaseMethodFunctor" name="TestCaseMethodFunctor">
+<area shape="rect" id="node2" href="$class_functor.html" title="Functor" alt="" coords="20,165,87,195"/>
+<area shape="rect" id="node4" href="$class_test_case.html" title="A single test object. " alt="" coords="111,165,188,195"/>
+<area shape="rect" id="node6" href="$class_test_leaf.html" title="A single test object. " alt="" coords="44,85,116,115"/>
+<area shape="rect" id="node8" href="$class_test.html" title="Base class for all test objects.All test objects should be a subclass of Test. Some test objects..." alt="" coords="56,5,104,35"/>
+<area shape="rect" id="node10" href="$class_test_fixture.html" title="Wraps a test case with setUp and tearDown methods.A TestFixture is used to provide a common environme..." alt="" coords="140,85,228,115"/>
+</map>
