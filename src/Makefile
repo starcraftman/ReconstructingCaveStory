@@ -4,7 +4,7 @@ include ../Make.defines
 
 # Target executables to make.
 SOURCES:=main.cpp game.cpp
-EXE:=$(ODIR)/main.exe
+EXE:=$(ODIR)/cavestory.exe
 OBJS = $(patsubst %.cpp, $(ODIR)/%.o, $(SOURCES))
 
 # Headers and objects for the executables, currently assumes only 1 of each.
