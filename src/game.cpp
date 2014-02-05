@@ -1,7 +1,3 @@
-/**
- * Template C++ file.
- * Function with references to pointers: func(int *&ptr);
- */
 /********************* Header Files ***********************/
 /* C++ Headers */
 #include <iostream> /* Input/output objects. */
