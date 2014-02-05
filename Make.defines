@@ -29,9 +29,6 @@ TEST:=test
 CC:=gcc
 CXX:=g++
 
-# Include directories, append as needed. Format -I./dir -I/dir/to/files
-INC_DIRS:=-I$(LDIR)/cunit/include -I$(LDIR)/cppunit/include -I$(LDIR)/SDL1/include
-
 # Generic Flags
 # To profile: 1) Compile/link with PROF flag. 2) Run file as normally to make gmon.out. 3) Run command: gprof program gmon.out > program.txt. Read output text.
 # To coverage: 1) Compile/link with GCOV flag. 2) Run program. 3) Run command: gcov program.c.
@@ -42,9 +39,12 @@ F_OPT:=-O2 # For efficient build.
 F_DEBUG:=-ggdb -Wall -Wextra -Winline -pedantic
 # Disabled -Werror for now.
 
+# Include directories, append as needed. Format -I./dir -I/dir/to/files
+INC_DIRS:=-I$(LDIR)/cunit/include -I$(LDIR)/cppunit/include -I$(LDIR)/SDL1/include
+
 # Rule Flag Variables
 CFLAGS:=--std=gnu99
-CXXFLAGS:=-Weffc++
+CXXFLAGS:=--std=c++11 -Weffc++
 CPPFLAGS=$(INC_DIRS) $(F_DEBUG) $(F_DIRECT)
 LDFLAGS:=-L$(LDIR)/cunit/lib -L$(LDIR)/cppunit/lib -L$(LDIR)/SDL1/lib
 LIBFLAGS:=$(F_DEBUG) -fPIC
