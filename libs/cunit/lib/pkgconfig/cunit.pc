@@ -1,4 +1,4 @@
-prefix=/home/starcraftman/local
+prefix=/home/starcraftman/Downloads/CUnit-2.1-2/build
 exec_prefix=${prefix}
 libdir=${exec_prefix}/lib
 includedir=${prefix}/include
