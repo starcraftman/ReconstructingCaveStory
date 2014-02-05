@@ -1,9 +1,0 @@
-<map id="TestCase.h" name="TestCase.h">
-<area shape="rect" id="node3" href="$_orthodox_8h.html" title="Orthodox.h" alt="" coords="132,83,217,112"/>
-<area shape="rect" id="node5" href="$_test_case_decorator_8h.html" title="TestCaseDecorator.h" alt="" coords="241,83,388,112"/>
-<area shape="rect" id="node13" href="$_test_caller_8h.html" title="TestCaller.h" alt="" coords="419,160,512,189"/>
-<area shape="rect" id="node16" href="$_test_case_8cpp.html" title="TestCase.cpp" alt="" coords="463,83,567,112"/>
-<area shape="rect" id="node7" href="$_exception_test_case_decorator_8h.html" title="ExceptionTestCaseDecorator.h" alt="" coords="5,160,211,189"/>
-<area shape="rect" id="node11" href="$_test_case_decorator_8cpp.html" title="TestCaseDecorator.cpp" alt="" coords="235,160,395,189"/>
-<area shape="rect" id="node9" href="$_helper_macros_8h.html" title="Macros intended to ease the definition of test suites. " alt="" coords="229,237,344,267"/>
-</map>

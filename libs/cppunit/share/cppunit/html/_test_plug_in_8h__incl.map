@@ -1,8 +1,0 @@
-<map id="TestPlugIn.h" name="TestPlugIn.h">
-<area shape="rect" id="node3" href="$_portability_8h.html" title="cppunit/Portability.h" alt="" coords="195,275,331,304"/>
-<area shape="rect" id="node11" href="$_plug_in_parameters_8h.html" title="cppunit/plugin/PlugInParameters.h" alt="" coords="317,92,539,121"/>
-<area shape="rect" id="node21" href="$_test_plug_in_default_impl_8h.html" title="cppunit/plugin/TestPlugIn\lDefaultImpl.h" alt="" coords="125,83,293,130"/>
-<area shape="rect" id="node7" href="$_cpp_unit_api_8h.html" title="cppunit/config/CppUnitApi.h" alt="" coords="171,361,355,391"/>
-<area shape="rect" id="node9" href="$_select_dll_loader_8h.html" title="cppunit/config/SelectDll\lLoader.h" alt="" coords="379,353,539,399"/>
-<area shape="rect" id="node14" href="$_cpp_unit_deque_8h.html" title="cppunit/portability\l/CppUnitDeque.h" alt="" coords="375,179,497,226"/>
-</map>
