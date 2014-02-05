@@ -1,12 +1,14 @@
 # Clang alternative makefiles, this is based on tut.
 # I'll keep this one at top level like his.
 
-EXE:=gen/cavestory
+EXE:=gen/cavestory.exe
 
-compile:
+all: $(EXE)
+
+$(EXE):
 	clang++ -o $(EXE) src/**.cpp
 
-run:
+run: $(EXE)
 	$(EXE)
 
 clean:
