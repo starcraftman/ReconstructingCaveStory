@@ -44,7 +44,7 @@ namespace {
     const int kScreenHeight = 480;
     const int kBitsPerPixel = 32;
     const int kFlags = 0;
-    const double kFPSWindow = 1000/60;
+    const double kFPS = 60;
 }
 
 /**************** Namespace Declarations ******************/
@@ -103,15 +103,13 @@ void Game::eventLoop() {
         draw();
 
         const int elapsed_time_ms = SDL_GetTicks() - start_time_ms;
-        SDL_Delay(kFPSWindow - elapsed_time_ms);
+        SDL_Delay(1000/kFPS - elapsed_time_ms);
+
+        // Simple fps print. Called after delay to get time difference.
+        const float seconds_per_frame = (SDL_GetTicks() - start_time_ms)/1000.0;
+        const float fps = 1 / seconds_per_frame;
+        printf("FPS=%f\n", fps);
     }
-
-    // while (running) - 60 hz
-    // Handle input as events. Handle timer callbacks.
-
-    // Update, move player/projectiles.
-    // draw phase.
-
 }
 
 void Game::draw() {
