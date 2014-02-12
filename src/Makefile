@@ -7,6 +7,10 @@ SOURCES:=main.cpp game.cpp
 EXE:=$(ODIR)/cavestory.exe
 OBJS = $(patsubst %.cpp, $(ODIR)/%.o, $(SOURCES))
 
+# Just for tests.
+SC_EXE=$(ODIR)/scratch.exe
+SC_OBJS=$(ODIR)/scratch.o
+
 # Headers and objects for the executables, currently assumes only 1 of each.
 #H1:=$(addsuffix $(EXT_HXX), $(T1))
 
@@ -21,8 +25,14 @@ $(ODIR)/%.o: %.cpp
 run: $(EXE)
 	$(EXE)
 
+srun: $(SC_EXE)
+	$(SC_EXE)
+
+$(SC_EXE): $(SC_OBJS)
+	$(CXX) $(LDFLAGS) -o $@ $^ $(LDLIBS)
+
 clean:
-	rm -f $(EXE) $(OBJS)
+	rm -f $(EXE) $(OBJS) $(SC) $(SC_OBJS)
 
 # Default Rules:
 # 	$(CC) $(CPPFLAGS) $(CFLAGS) -c

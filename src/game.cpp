@@ -36,9 +36,16 @@
 
 /* Project Headers */
 #include "game.hpp"
+#include "SDL/SDL.h"
 
 /******************* Constants/Macros *********************/
-
+namespace {
+    const int kScreenWidth = 640;
+    const int kScreenHeight = 480;
+    const int kBitsPerPixel = 32;
+    const int kFlags = 0;
+    const double kFPSWindow = 1000/60;
+}
 
 /**************** Namespace Declarations ******************/
 using std::cin;
@@ -60,11 +67,58 @@ using std::string;
  */
 
 /****************** Class Definitions *********************/
-Game::Game(int num) {
-    this->num = num;;
+Game::Game() {
+    SDL_Init(SDL_INIT_EVERYTHING);
+    SDL_ShowCursor(SDL_DISABLE);
+    screen_ = SDL_SetVideoMode(kScreenWidth, kScreenHeight, kBitsPerPixel, kFlags);
+    eventLoop();
 }
 
 Game::~Game() {
+    SDL_FreeSurface(screen_);
+    SDL_Quit();
+}
+
+void Game::eventLoop() {
+    SDL_Event event;
+    bool running = true;
+
+    while (running) { // Runs at 1/60th of a second on this outer loop.
+        const int start_time_ms = SDL_GetTicks();
+
+        while (SDL_PollEvent(&event)) {
+            switch(event.type) {
+                case SDL_KEYDOWN:
+                    if (event.key.keysym.sym == SDLK_ESCAPE) {
+                        running = false;
+                    }
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        update();
+        draw();
+
+        const int elapsed_time_ms = SDL_GetTicks() - start_time_ms;
+        SDL_Delay(kFPSWindow - elapsed_time_ms);
+    }
+
+    // while (running) - 60 hz
+    // Handle input as events. Handle timer callbacks.
+
+    // Update, move player/projectiles.
+    // draw phase.
+
+}
+
+void Game::draw() {
+
+}
+
+void Game::update() {
 
 }
 

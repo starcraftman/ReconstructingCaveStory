@@ -1,6 +1,6 @@
 /**
- * See video at: https://www.youtube.com/watch?v=IufkC1IRY2Q&list=PL006xsVEsbKjSKBmLu1clo85yLrwjY67X
- * Currently at Episode 1.
+ * Template C++ file.
+ * Function with references to pointers: func(int *&ptr);
  */
 /********************* Header Files ***********************/
 /* C++ Headers */
@@ -39,11 +39,15 @@
 //#include <cassert>
 
 /* Project Headers */
-#include "game.hpp"
-
 
 /******************* Constants/Macros *********************/
+// Example to combine two enums in a prepending method.
+#define MAKE_FIRST(enum_type) FIRST_##enum_type
+#define FIRST_TEST 11
+#define TEST 5
 
+#define ENUM_FOREACH(var, enum_type) \
+    for (int var = FIRST_##enum_type; var < LAST_##enum_type; ++var)
 
 /**************** Namespace Declarations ******************/
 using std::cin;
@@ -52,17 +56,15 @@ using std::endl;
 using std::string;
 
 /******************* Type Definitions *********************/
-/* For enums: Try to namesapce the common elements.
- * typedef enum {
- *	VAL_,
- * } name_e;
- */
-
-/* For structs:
- * typedef struct name_s {
- *	int index;
- * } name_t;
- */
+enum EnumType {
+    FIRST_ENUM_TYPE,
+    A = FIRST_ENUM_TYPE,
+    B,
+    C,
+    D,
+    E,
+    LAST_ENUM_TYPE
+};
 
 /****************** Class Definitions *********************/
 
@@ -78,8 +80,19 @@ using std::string;
  * Main loop of the function.
  */
 int main(void) {
-    Game game;
-    cout << "Hello game has run its course." << endl;
-    return 0;
+    cout << "Hello this is a scratch file for testing code." << endl;
+
+    cout << MAKE_FIRST(TEST) << endl;
+
+    ENUM_FOREACH(evar, ENUM_TYPE) {
+        cout << evar << endl;
+    }
+
+	return 0;
 }
 
+
+/* Notes:
+ * Force call to use another version of virtual function: baseP->Item_base::net_price(42);
+ *
+ */
