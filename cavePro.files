@@ -1980,3 +1980,4 @@ caveProject.pro
 LICENSE
 Make.defines
 README.md
+src/scratch.cpp

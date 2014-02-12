@@ -54,13 +54,17 @@
  */
 
 /****************** Class Declaration *********************/
+struct SDL_Surface;
+
 class Game {
 public:
-    Game(int num=22);
+    Game();
     ~Game();
-    int getNum() { return num; }
 private:
-    int num;
+    void eventLoop();
+    void update();
+    void draw();
+    SDL_Surface *screen_;
 };
 
 /********************* Prototypes *************************/
