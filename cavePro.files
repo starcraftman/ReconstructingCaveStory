@@ -1981,3 +1981,5 @@ LICENSE
 Make.defines
 README.md
 src/scratch.cpp
+src/graphics.hpp
+src/graphics.cpp
