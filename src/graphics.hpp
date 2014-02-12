@@ -1,15 +1,12 @@
-/**
- * See video at: https://www.youtube.com/watch?v=IufkC1IRY2Q&list=PL006xsVEsbKjSKBmLu1clo85yLrwjY67X
- * Currently at Episode 3 4.30
- *
- * SDL 1.2 docs at: http://www.libsdl.org/release/SDL-1.2.15/docs/html/index.html
- */
+#ifndef _GRAPHICS_HPP_
+#define _GRAPHICS_HPP_
+
 /********************* Header Files ***********************/
 /* C++ Headers */
-#include <iostream> /* Input/output objects. */
+//#include <iostream> /* Input/output objects. */
 //#include <fstream> /* File operations. */
 //#include <sstream> /* String stream. */
-#include <string> /* C++ String class. */
+//#include <string> /* C++ String class. */
 //#include <new> /* Defines bad_malloc exception, new functions. */
 //#include <typeinfo> /* Casting header. */
 //#include <exception> /* Top level exception header. */
@@ -28,8 +25,6 @@
 //#include <utility> // Has pair for map.
 //#include <algorithm>
 //#include <numeric>
-//#include <functional> // Functional objects.
-//#include <iterator> // Contains back_inserter function and like.
 
 /* C Headers */
 //#include <cstdlib>
@@ -41,17 +36,9 @@
 //#include <cassert>
 
 /* Project Headers */
-#include "game.hpp"
-
 
 /******************* Constants/Macros *********************/
 
-
-/**************** Namespace Declarations ******************/
-using std::cin;
-using std::cout;
-using std::endl;
-using std::string;
 
 /******************* Type Definitions *********************/
 /* For enums: Try to namesapce the common elements.
@@ -66,22 +53,10 @@ using std::string;
  * } name_t;
  */
 
-/****************** Class Definitions *********************/
+/****************** Class Declaration *********************/
 
 
-/**************** Static Data Definitions *****************/
+/********************* Prototypes *************************/
 
 
-/****************** Static Functions **********************/
-
-
-/****************** Global Functions **********************/
-/**
- * Main loop of the function.
- */
-int main(void) {
-    Game game;
-    cout << "Hello game has run its course." << endl;
-    return 0;
-}
-
+#endif /* _GRAPHICS_HPP_ */

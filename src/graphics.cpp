@@ -1,8 +1,6 @@
 /**
- * See video at: https://www.youtube.com/watch?v=IufkC1IRY2Q&list=PL006xsVEsbKjSKBmLu1clo85yLrwjY67X
- * Currently at Episode 3 4.30
- *
- * SDL 1.2 docs at: http://www.libsdl.org/release/SDL-1.2.15/docs/html/index.html
+ * Template C++ file.
+ * Function with references to pointers: func(int *&ptr);
  */
 /********************* Header Files ***********************/
 /* C++ Headers */
@@ -41,8 +39,6 @@
 //#include <cassert>
 
 /* Project Headers */
-#include "game.hpp"
-
 
 /******************* Constants/Macros *********************/
 
@@ -80,8 +76,12 @@ using std::string;
  * Main loop of the function.
  */
 int main(void) {
-    Game game;
-    cout << "Hello game has run its course." << endl;
-    return 0;
+
+	return 0;
 }
 
+
+/* Notes:
+ * Force call to use another version of virtual function: baseP->Item_base::net_price(42);
+ *
+ */
