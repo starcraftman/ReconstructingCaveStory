@@ -54,8 +54,6 @@
  */
 
 /****************** Class Declaration *********************/
-struct SDL_Surface;
-
 class Game {
 public:
     Game();
@@ -64,7 +62,6 @@ private:
     void eventLoop();
     void update();
     void draw();
-    SDL_Surface *screen_;
 };
 
 /********************* Prototypes *************************/

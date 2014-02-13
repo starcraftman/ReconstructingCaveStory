@@ -55,6 +55,15 @@
 
 /****************** Class Declaration *********************/
 
+struct SDL_Surface;
+
+class Graphics {
+public:
+    Graphics();
+    ~Graphics();
+private:
+    SDL_Surface *screen_;
+};
 
 /********************* Prototypes *************************/
 
