@@ -39,9 +39,16 @@
 //#include <cassert>
 
 /* Project Headers */
+#include "SDL/SDL.h"
+#include "graphics.hpp"
 
 /******************* Constants/Macros *********************/
-
+namespace {
+    const int kScreenWidth = 640;
+    const int kScreenHeight = 480;
+    const int kBitsPerPixel = 32;
+    const int kFlags = 0;
+}
 
 /**************** Namespace Declarations ******************/
 using std::cin;
@@ -63,12 +70,13 @@ using std::string;
  */
 
 /****************** Class Definitions *********************/
+Graphics::Graphics() {
+    screen_ = SDL_SetVideoMode(kScreenWidth, kScreenHeight,
+                               kBitsPerPixel, kFlags);
+}
 
-
-/**************** Static Data Definitions *****************/
-
-
-/****************** Static Functions **********************/
-
+Graphics::~Graphics() {
+    SDL_FreeSurface(screen_);
+}
 
 /****************** Global Functions **********************/

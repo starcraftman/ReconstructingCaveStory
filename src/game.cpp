@@ -35,15 +35,12 @@
 //#include <cassert>
 
 /* Project Headers */
+#include "graphics.hpp"
 #include "game.hpp"
 #include "SDL/SDL.h"
 
 /******************* Constants/Macros *********************/
 namespace {
-    const int kScreenWidth = 640;
-    const int kScreenHeight = 480;
-    const int kBitsPerPixel = 32;
-    const int kFlags = 0;
     const double kFPS = 60;
 }
 
@@ -70,16 +67,15 @@ using std::string;
 Game::Game() {
     SDL_Init(SDL_INIT_EVERYTHING);
     SDL_ShowCursor(SDL_DISABLE);
-    screen_ = SDL_SetVideoMode(kScreenWidth, kScreenHeight, kBitsPerPixel, kFlags);
     eventLoop();
 }
 
 Game::~Game() {
-    SDL_FreeSurface(screen_);
     SDL_Quit();
 }
 
 void Game::eventLoop() {
+    Graphics graphics;
     SDL_Event event;
     bool running = true;
 
