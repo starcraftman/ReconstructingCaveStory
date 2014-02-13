@@ -115,16 +115,5 @@ void Game::update() {
 
 }
 
-/**************** Static Data Definitions *****************/
-
-
-/****************** Static Functions **********************/
-
 
 /****************** Global Functions **********************/
-
-
-/* Notes:
- * Force call to use another version of virtual function: baseP->Item_base::net_price(42);
- *
- */
