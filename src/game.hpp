@@ -36,6 +36,7 @@
 //#include <cassert>
 
 /* Project Headers */
+#include <boost/scoped_ptr.hpp>
 
 /******************* Constants/Macros *********************/
 
@@ -54,6 +55,9 @@
  */
 
 /****************** Class Declaration *********************/
+class Sprite;
+class Graphics;
+
 class Game {
 public:
     Game();
@@ -61,7 +65,9 @@ public:
 private:
     void eventLoop();
     void update();
-    void draw();
+    void draw(Graphics &graphics);
+
+    boost::scoped_ptr<Sprite> sprite_;
 };
 
 /********************* Prototypes *************************/

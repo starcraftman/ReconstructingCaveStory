@@ -35,9 +35,10 @@
 //#include <cassert>
 
 /* Project Headers */
+#include "SDL/SDL.h"
 #include "graphics.hpp"
 #include "game.hpp"
-#include "SDL/SDL.h"
+#include "sprite.hpp"
 
 /******************* Constants/Macros *********************/
 namespace {
@@ -76,6 +77,7 @@ Game::~Game() {
 
 void Game::eventLoop() {
     Graphics graphics;
+    sprite_.reset(new Sprite("content/myChar.bmp", 0, 0, 32, 32));
     SDL_Event event;
     bool running = true;
 
@@ -96,15 +98,16 @@ void Game::eventLoop() {
         }
 
         update();
-        draw();
+        draw(graphics);
 
         const int elapsed_time_ms = SDL_GetTicks() - start_time_ms;
         SDL_Delay(1000/kFPS - elapsed_time_ms);
     }
 }
 
-void Game::draw() {
-
+void Game::draw(Graphics &graphics) {
+    sprite_->draw(graphics, 320, 240);
+    graphics.flip();
 }
 
 void Game::update() {

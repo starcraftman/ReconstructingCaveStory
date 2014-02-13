@@ -54,13 +54,22 @@
  */
 
 /****************** Class Declaration *********************/
-
-struct SDL_Surface;
+class SDL_Surface;
+class SDL_Rect;
 
 class Graphics {
 public:
     Graphics();
     ~Graphics();
+
+    /* Function to put a surface on the screen. Specify source bitmap
+     * then the source position and dest position on screen. */
+    void blitSurface(SDL_Surface *source,
+                     SDL_Rect *s_rect, SDL_Rect *d_rect);
+
+    /* Flip when done writing to double buffer. */
+    void flip();
+
 private:
     SDL_Surface *screen_;
 };

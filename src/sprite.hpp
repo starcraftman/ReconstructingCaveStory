@@ -1,13 +1,12 @@
-/**
- * Template C++ file.
- * Function with references to pointers: func(int *&ptr);
- */
+#ifndef _SPRITE_HPP_
+#define _SPRITE_HPP_
+
 /********************* Header Files ***********************/
 /* C++ Headers */
-#include <iostream> /* Input/output objects. */
+//#include <iostream> /* Input/output objects. */
 //#include <fstream> /* File operations. */
 //#include <sstream> /* String stream. */
-#include <string> /* C++ String class. */
+//#include <string> /* C++ String class. */
 //#include <new> /* Defines bad_malloc exception, new functions. */
 //#include <typeinfo> /* Casting header. */
 //#include <exception> /* Top level exception header. */
@@ -26,8 +25,6 @@
 //#include <utility> // Has pair for map.
 //#include <algorithm>
 //#include <numeric>
-//#include <functional> // Functional objects.
-//#include <iterator> // Contains back_inserter function and like.
 
 /* C Headers */
 //#include <cstdlib>
@@ -39,22 +36,9 @@
 //#include <cassert>
 
 /* Project Headers */
-#include "SDL/SDL.h"
-#include "graphics.hpp"
 
 /******************* Constants/Macros *********************/
-namespace {
-    const int kScreenWidth = 640;
-    const int kScreenHeight = 480;
-    const int kBitsPerPixel = 32;
-    const int kFlags = 0;
-}
 
-/**************** Namespace Declarations ******************/
-using std::cin;
-using std::cout;
-using std::endl;
-using std::string;
 
 /******************* Type Definitions *********************/
 /* For enums: Try to namesapce the common elements.
@@ -69,23 +53,25 @@ using std::string;
  * } name_t;
  */
 
-/****************** Class Definitions *********************/
-Graphics::Graphics() {
-    screen_ = SDL_SetVideoMode(kScreenWidth, kScreenHeight,
-                               kBitsPerPixel, kFlags);
-}
+/**************** Class/Func Declaration *******************/
+class string;
+class SDL_Surface;
+class SDL_Rect;
+class Graphics;
 
-Graphics::~Graphics() {
-    SDL_FreeSurface(screen_);
-}
+class Sprite {
+public:
+    Sprite(const std::string& file_path,
+           int source_x, int source_y,
+           int width, int height);
+    ~Sprite();
 
-void Graphics::blitSurface(SDL_Surface *source,
-                 SDL_Rect *s_rect, SDL_Rect *d_rect) {
-    SDL_BlitSurface(source, s_rect, screen_, d_rect);
-}
+    /* Draw sprite at x and y on screen, top left = 0,0 */
+    void draw(Graphics& graphics, int x, int y);
 
-void Graphics::flip() {
-    SDL_Flip(screen_);
-}
+private:
+    SDL_Surface *sprite_sheet_;
+    SDL_Rect s_rect;
+};
 
-/****************** Global Functions **********************/
+#endif /* _SPRITE_HPP_ */
