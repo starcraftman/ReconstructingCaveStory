@@ -1,77 +1,38 @@
-# Top level defines. Contains most of the flags for nromal builds.
-# CPP is the preprocessor flags not C++.
-# Good reference: http://www.acsu.buffalo.edu/~charngda/cc.html
-######################################
-#       GLOBAL CONSTANTS
-######################################
-# Functions:
-# Returns where the current makefile is located.
-where-am-i = $(realpath $(dir $(CURDIR)/$(word $(words $(MAKEFILE_LIST)),$(MAKEFILE_LIST))))
+include Make.defines
 
-# Paths
-DIR:=$(call where-am-i)
-LDIR:=$(DIR)/libs
-ODIR:=$(DIR)/gen
-SDIR:=$(DIR)/src
+.PHONY: all clean run
 
-# Commands
-# Useful: --no-print-directory
-SHELL:=/bin/sh
-MAKE:=colormake
-MKDIR:=@mkdir -p
-MV:=@mv -f
-CP:=@cp -f
-RM:=@rm -rf
-AR:=ar
-AWK:=awk
-SED:=sed
-RANLIB:=ranlib
-TEST:=test
-CC:=gcc
-CXX:=g++
+# Target executables to make.
+SOURCES:=main.cpp game.cpp graphics.cpp sprite.cpp
+EXE:=$(DIR)/cavestory.exe
+OBJS = $(patsubst %.cpp, $(ODIR)/%.o, $(SOURCES))
 
-# Generic Flags
-# To profile: 1) Compile/link with PROF flag. 2) Run file as normally to make gmon.out. 3) Run command: gprof program gmon.out > program.txt. Read output text.
-# To coverage: 1) Compile/link with GCOV flag. 2) Run program. 3) Run command: gcov program.c.
-F_PROF:=-pg # Use in both compile/link.
-F_GCOV:=-fprofile-arcs -ftest-coverage # Use in both compile/link.
-F_DIRECT:=-D_REENTRANT
-F_OPT:=-O2 # -O0-3 for speed, Og for debug with some speed, Os for space.
-F_DEBUG:=-ggdb -Wall -Wextra -Winline -pedantic
-# Disabled -Werror for now.
+# Just for tests.
+SC_EXE=$(ODIR)/scratch.exe
+SC_OBJS=$(ODIR)/scratch.o
 
-# Include directories, append as needed. Format -I./dir -I/dir/to/files
-INC_DIRS:=-I$(LDIR)/cunit/include -I$(LDIR)/cppunit/include -I$(LDIR)/SDL1/include
+# Headers and objects for the executables, currently assumes only 1 of each.
+#H1:=$(addsuffix $(EXT_HXX), $(T1))
 
-# Rule Flag Variables
-CFLAGS:=--std=gnu99
-CXXFLAGS:=--std=c++11 -Weffc++
-CPPFLAGS=$(INC_DIRS) $(F_DEBUG) $(F_DIRECT)
-LDFLAGS:=-L$(LDIR)/cunit/lib -L$(LDIR)/cppunit/lib -L$(LDIR)/SDL1/lib
-LIBFLAGS:=$(F_DEBUG) -fPIC
-ARFLAGS:=-rv
+all: $(EXE)
 
-# File Extension
-EXT_C:=.c
-EXT_H:=.h
-EXT_CXX:=.cpp
-EXT_HXX:=.hpp
-EXT_OBJ:=.o
-EXT_ARC:=.a
+$(EXE): $(OBJS)
+	$(CXX) $(LDFLAGS) -o $@ $(OBJS) $(LDLIBS)
 
-# Common libs
-LIBS:=-lpthread -lm -lSDL
-TESTLIBS:=-lcppunit -lcunit
-BOOSTLIBS:=-lboost_date_time -lboost_filesystem -lboost_graph -lboost_iostreams -lboost_math_c99 -lboost_math_tr1 -lboost_mpi -lboost_prg_exec_monitor -lboost_program_options -lboost_python -lboost_regex -lboost_serialization -lboost_signals -lboost_system -lboost_thread -lboost_unit_test_framework -lboost_wave
-LDLIBS:=$(LIBS) $(TESTLIBS) $(BOOSTLIBS)
+$(ODIR)/%.o: $(SDIR)/%.cpp
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
 
-# OS Strings
-LIN64:=linux64
-LIN32:=linux32
-WIN32:=win32
+run: $(EXE)
+	$(EXE)
 
-# Generic files to clean.
-FILES_TO_CLEAN:=*.o *.a *.out *.exe *~ temp.* *.gcov *.gcda *.gcno
+srun: $(SC_EXE)
+	$(SC_EXE)
+
+$(SC_EXE): $(SC_OBJS)
+	$(CXX) $(LDFLAGS) -o $@ $^ $(LDLIBS)
+
+clean:
+	rm -f $(EXE) $(OBJS) $(SC_EXE) $(SC_OBJS)
 
 # Default Rules:
 # 	$(CC) $(CPPFLAGS) $(CFLAGS) -c
@@ -212,5 +173,7 @@ FILES_TO_CLEAN:=*.o *.a *.out *.exe *~ temp.* *.gcov *.gcda *.gcno
 #	letters := $(foreach letter,a b c d e,$(letter))
 #	show-words:
 #		# letters has $(words $(letters)) words: '$(letters)'
+#
+#
 #
 

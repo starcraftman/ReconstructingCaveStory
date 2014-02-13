@@ -23,7 +23,9 @@ $(ODIR)/%.o: %.cpp
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
 
 run: $(EXE)
+	cd ..
 	$(EXE)
+	cd -
 
 srun: $(SC_EXE)
 	$(SC_EXE)
