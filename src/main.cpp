@@ -1,6 +1,6 @@
 /**
  * See video at: https://www.youtube.com/watch?v=IufkC1IRY2Q&list=PL006xsVEsbKjSKBmLu1clo85yLrwjY67X
- * Currently at Episode 3 4.30
+ * Currently at Episode 4 0.00
  *
  * SDL 1.2 docs at: http://www.libsdl.org/release/SDL-1.2.15/docs/html/index.html
  */
