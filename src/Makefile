@@ -32,7 +32,7 @@ $(SC_EXE): $(SC_OBJS)
 	$(CXX) $(LDFLAGS) -o $@ $^ $(LDLIBS)
 
 clean:
-	rm -f $(EXE) $(OBJS) $(SC) $(SC_OBJS)
+	rm -f $(EXE) $(OBJS) $(SC_EXE) $(SC_OBJS)
 
 # Default Rules:
 # 	$(CC) $(CPPFLAGS) $(CFLAGS) -c
