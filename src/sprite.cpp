@@ -40,15 +40,11 @@
 
 /* Project Headers */
 #include "SDL/SDL.h"
+#include "sprite.hpp"
 #include "graphics.hpp"
 
 /******************* Constants/Macros *********************/
-namespace {
-    const int kScreenWidth = 640;
-    const int kScreenHeight = 480;
-    const int kBitsPerPixel = 32;
-    const int kFlags = 0;
-}
+
 
 /**************** Namespace Declarations ******************/
 using std::cin;
@@ -70,22 +66,27 @@ using std::string;
  */
 
 /****************** Class Definitions *********************/
-Graphics::Graphics() {
-    screen_ = SDL_SetVideoMode(kScreenWidth, kScreenHeight,
-                               kBitsPerPixel, kFlags);
+Sprite::Sprite(const std::string& file_path,
+       int source_x, int source_y,
+       int width, int height) {
+    sprite_sheet_ = SDL_LoadBMP(file_path.c_str());
+    s_rect.x = source_x;
+    s_rect.y = source_y;
+    s_rect.w = width;
+    s_rect.h = height;
+
 }
 
-Graphics::~Graphics() {
-    SDL_FreeSurface(screen_);
+Sprite::~Sprite() {
+    SDL_FreeSurface(sprite_sheet_);
 }
 
-void Graphics::blitSurface(SDL_Surface *source,
-                 SDL_Rect *s_rect, SDL_Rect *d_rect) {
-    SDL_BlitSurface(source, s_rect, screen_, d_rect);
-}
-
-void Graphics::flip() {
-    SDL_Flip(screen_);
+void Sprite::draw(Graphics& graphics, int x, int y) {
+    SDL_Rect d_rect;
+    d_rect.x = x;
+    d_rect.y = y;
+    graphics.blitSurface(sprite_sheet_, &s_rect, &d_rect);
 }
 
 /****************** Global Functions **********************/
+

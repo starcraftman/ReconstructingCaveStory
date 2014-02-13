@@ -3,8 +3,8 @@ include ../Make.defines
 .PHONY: all clean run
 
 # Target executables to make.
-SOURCES:=main.cpp game.cpp graphics.cpp
-EXE:=$(ODIR)/cavestory.exe
+SOURCES:=main.cpp game.cpp graphics.cpp sprite.cpp
+EXE:=$(DIR)/cavestory.exe
 OBJS = $(patsubst %.cpp, $(ODIR)/%.o, $(SOURCES))
 
 # Just for tests.

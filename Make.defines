@@ -62,7 +62,7 @@ EXT_ARC:=.a
 LIBS:=-lpthread -lm -lSDL
 TESTLIBS:=-lcppunit -lcunit
 BOOSTLIBS:=-lboost_date_time -lboost_filesystem -lboost_graph -lboost_iostreams -lboost_math_c99 -lboost_math_tr1 -lboost_mpi -lboost_prg_exec_monitor -lboost_program_options -lboost_python -lboost_regex -lboost_serialization -lboost_signals -lboost_system -lboost_thread -lboost_unit_test_framework -lboost_wave
-LDLIBS:=$(LIBS) $(TESTLIBS)
+LDLIBS:=$(LIBS) $(TESTLIBS) $(BOOSTLIBS)
 
 # OS Strings
 LIN64:=linux64
