@@ -77,7 +77,7 @@ Game::~Game() {
 
 void Game::eventLoop() {
     Graphics graphics;
-    sprite_.reset(new Sprite("content/myChar.bmp", 0, 0, 32, 32));
+    sprite_.reset(new Sprite("content/MyChar.bmp", 0, 0, 32, 32));
     SDL_Event event;
     bool running = true;
 
