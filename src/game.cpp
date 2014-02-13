@@ -104,11 +104,6 @@ void Game::eventLoop() {
 
         const int elapsed_time_ms = SDL_GetTicks() - start_time_ms;
         SDL_Delay(1000/kFPS - elapsed_time_ms);
-
-        // Simple fps print. Called after delay to get time difference.
-        const float seconds_per_frame = (SDL_GetTicks() - start_time_ms)/1000.0;
-        const float fps = 1 / seconds_per_frame;
-        printf("FPS=%f\n", fps);
     }
 }
 
