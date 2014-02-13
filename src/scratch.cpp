@@ -69,12 +69,6 @@ enum EnumType {
 /****************** Class Definitions *********************/
 
 
-/**************** Static Data Definitions *****************/
-
-
-/****************** Static Functions **********************/
-
-
 /****************** Global Functions **********************/
 /**
  * Main loop of the function.
@@ -88,11 +82,5 @@ int main(void) {
         cout << evar << endl;
     }
 
-	return 0;
+    return 0;
 }
-
-
-/* Notes:
- * Force call to use another version of virtual function: baseP->Item_base::net_price(42);
- *
- */

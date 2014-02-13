@@ -72,16 +72,3 @@ using std::string;
 
 
 /****************** Global Functions **********************/
-/**
- * Main loop of the function.
- */
-int main(void) {
-
-	return 0;
-}
-
-
-/* Notes:
- * Force call to use another version of virtual function: baseP->Item_base::net_price(42);
- *
- */
