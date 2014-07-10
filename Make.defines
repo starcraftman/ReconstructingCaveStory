@@ -41,13 +41,13 @@ F_DEBUG:=-ggdb -Wall -Wextra -Winline -pedantic
 # Disabled -Werror for now.
 
 # Include directories, append as needed. Format -I./dir -I/dir/to/files
-INC_DIRS:=-I$(LDIR)/cunit/include -I$(LDIR)/cppunit/include -I$(LDIR)/SDL1/include
+INC_DIRS:=-I$(LDIR)/include
 
 # Rule Flag Variables
 CFLAGS:=--std=gnu99
 CXXFLAGS:=--std=c++11 -Weffc++
 CPPFLAGS=$(INC_DIRS) $(F_DEBUG) $(F_DIRECT)
-LDFLAGS:=-L$(LDIR)/cunit/lib -L$(LDIR)/cppunit/lib -L$(LDIR)/SDL1/lib
+LDFLAGS:=-L$(LDIR)/lib
 LIBFLAGS:=$(F_DEBUG) -fPIC
 ARFLAGS:=-rv
 
