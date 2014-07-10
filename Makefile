@@ -30,7 +30,7 @@ test: $(T_EXE)
 	$(T_EXE)
 
 $(T_EXE): $(T_OBJS)
-	$(CXX) $(LDFLAGS) -o $@ $^ $(TESTLIBS) $(LIBS)
+	$(CXX) $(LDFLAGS) -o $@ $^ $(LIBS) $(TESTLIBS)
 
 clean:
 	rm -f $(EXE) $(OBJS) $(T_EXE) $(T_OBJS)
