@@ -3,13 +3,14 @@ include Make.defines
 .PHONY: all clean run
 
 # Target executables to make.
-SOURCES=$(notdir $(filter-out $(wildcard */scratch.*), $(wildcard **/*.cpp)))
 EXE:=$(DIR)/cavestory.exe
+SOURCES=$(notdir $(wildcard $(SDIR)/*.cpp))
 OBJS = $(patsubst %.cpp, $(ODIR)/%.o, $(SOURCES))
 
 # Just for tests.
-SC_EXE=$(ODIR)/scratch.exe
-SC_OBJS=$(ODIR)/scratch.o
+T_EXE=$(DIR)/test/test.exe
+T_SOURCES=$(wildcard $(DIR)/test/*.cpp)
+T_OBJS = $(patsubst %.cpp, %.o, $(T_SOURCES))
 
 # Headers and objects for the executables, currently assumes only 1 of each.
 #H1:=$(addsuffix $(EXT_HXX), $(T1))
@@ -17,7 +18,7 @@ SC_OBJS=$(ODIR)/scratch.o
 all: $(EXE)
 
 $(EXE): $(OBJS)
-	$(CXX) $(LDFLAGS) -o $@ $(OBJS) $(LDLIBS)
+	$(CXX) $(LDFLAGS) -o $@ $(OBJS) $(LIBS)
 
 $(ODIR)/%.o: $(SDIR)/%.cpp
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
@@ -25,14 +26,14 @@ $(ODIR)/%.o: $(SDIR)/%.cpp
 run: $(EXE)
 	$(EXE)
 
-srun: $(SC_EXE)
-	$(SC_EXE)
+test: $(T_EXE)
+	$(T_EXE)
 
-$(SC_EXE): $(SC_OBJS)
-	$(CXX) $(LDFLAGS) -o $@ $^ $(LDLIBS)
+$(T_EXE): $(T_OBJS)
+	$(CXX) $(LDFLAGS) -o $@ $^ $(TESTLIBS) $(LIBS)
 
 clean:
-	rm -f $(EXE) $(OBJS) $(SC_EXE) $(SC_OBJS)
+	rm -f $(EXE) $(OBJS) $(T_EXE) $(T_OBJS)
 
 info:
 	$(info $$SOURCES is [${SOURCES}])

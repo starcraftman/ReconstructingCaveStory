@@ -14,7 +14,7 @@
 //#include <stdexcept> /* Derived exception classes. */
 
 /* STL Headers */
-//#include <vector>
+#include <vector>
 //#include <list>
 //#include <deque>
 //#include <stack>
@@ -39,15 +39,10 @@
 //#include <cassert>
 
 /* Project Headers */
+#include "gtest/gtest.h"
 
 /******************* Constants/Macros *********************/
-// Example to combine two enums in a prepending method.
-#define MAKE_FIRST(enum_type) FIRST_##enum_type
-#define FIRST_TEST 11
-#define TEST 5
 
-#define ENUM_FOREACH(var, enum_type) \
-    for (int var = FIRST_##enum_type; var < LAST_##enum_type; ++var)
 
 /**************** Namespace Declarations ******************/
 using std::cin;
@@ -56,31 +51,80 @@ using std::endl;
 using std::string;
 
 /******************* Type Definitions *********************/
-enum EnumType {
-    FIRST_ENUM_TYPE,
-    A = FIRST_ENUM_TYPE,
-    B,
-    C,
-    D,
-    E,
-    LAST_ENUM_TYPE
-};
+/* For enums: Try to namesapce the common elements.
+ * typedef enum {
+ *	VAL_,
+ * } name_e;
+ */
+
+/* For structs:
+ * typedef struct name_s {
+ *	int index;
+ * } name_t;
+ */
 
 /****************** Class Definitions *********************/
 
 
 /****************** Global Functions **********************/
+int fib(int n) {
+	if (n < 0)
+		return 0;
+	if (n < 2)
+		return n;
+
+	/* Now must be 2 or greater. */
+	int f_n2 = 0, f_n1 = 1, f_n, t = 1;
+	while(t != n) {
+		f_n = f_n2 + f_n;
+		f_n2 = f_n1;
+		f_n1 = f_n;
+		t++;
+	}
+	return f_n;
+}
+
+int factorial(int n) {
+	if (n < 0)
+		return 1;
+
+	return factorial(n-1) * n;
+}
+
+void testAssert() {
+	std::vector<int> v, v2;
+	v.push_back(1);
+	v2.push_back(1);
+
+	ASSERT_EQ(v.size(), v2.size());
+
+	for (std::vector<int>::size_type i = 0; i < v.size(); ++i) {
+		EXPECT_EQ(v[i], v2[i]) << "Vectors v & v2 differ at index " << i;
+	}
+}
+
+TEST(FibTest, HandlesZeroInput) {
+	EXPECT_EQ(0, fib(0));
+}
+
+TEST(FibTest, HandlesPositiveInput) {
+	EXPECT_EQ(1, fib(1));
+	EXPECT_EQ(3, fib(2));
+	EXPECT_EQ(4, fib(3));
+	EXPECT_EQ(5, fib(5));
+}
+
 /**
  * Main loop of the function.
  */
 int main(void) {
-    cout << "Hello this is a scratch file for testing code." << endl;
-
-    cout << MAKE_FIRST(TEST) << endl;
-
-    ENUM_FOREACH(evar, ENUM_TYPE) {
-        cout << evar << endl;
-    }
-
-    return 0;
+	testAssert();
+	cout << "Test file finished successfully." << std::endl;
+	return 0;
 }
+
+
+/* Notes:
+ * Force call to use another version of virtual function: baseP->Item_base::net_price(42);
+ *
+ */
