@@ -3,7 +3,7 @@ include Make.defines
 .PHONY: all clean run
 
 # Target executables to make.
-SOURCES:=main.cpp game.cpp graphics.cpp sprite.cpp
+SOURCES=$(notdir $(filter-out $(wildcard */scratch.*), $(wildcard **/*.cpp)))
 EXE:=$(DIR)/cavestory.exe
 OBJS = $(patsubst %.cpp, $(ODIR)/%.o, $(SOURCES))
 
@@ -33,6 +33,9 @@ $(SC_EXE): $(SC_OBJS)
 
 clean:
 	rm -f $(EXE) $(OBJS) $(SC_EXE) $(SC_OBJS)
+
+info:
+	$(info $$SOURCES is [${SOURCES}])
 
 # Default Rules:
 # 	$(CC) $(CPPFLAGS) $(CFLAGS) -c
