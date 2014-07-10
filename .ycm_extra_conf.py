@@ -34,11 +34,7 @@ FLAGS = [
     '-isystem',
     '/usr/local/include',
     '-I',
-    './libs/cunit/include',
-    '-I',
-    './libs/cppunit/include',
-    '-I',
-    './libs/SDL1/include',
+    './libs',
     '-I',
     './src',
 ]
