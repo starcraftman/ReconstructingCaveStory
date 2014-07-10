@@ -84,10 +84,16 @@ int fib(int n) {
 }
 
 int factorial(int n) {
-	if (n < 0)
+	if (n <= 1)
 		return 1;
 
-	return factorial(n-1) * n;
+	int fact = 1;
+	do {
+		fact *= n;
+		cout << n << '-' << fact << std::endl;
+	} while (n-- != 1);
+
+	return fact;
 }
 
 void testAssert() {
@@ -111,6 +117,13 @@ TEST(FibTest, HandlesPositiveInput) {
 	EXPECT_EQ(1, fib(2));
 	EXPECT_EQ(2, fib(3));
 	EXPECT_EQ(21, fib(8));
+}
+
+TEST(FactTest, HandlesPositiveInput) {
+	EXPECT_EQ(1, factorial(1));
+	EXPECT_EQ(6, factorial(3));
+	EXPECT_EQ(720, factorial(6));
+	EXPECT_EQ(5040, factorial(7));
 }
 
 /**
