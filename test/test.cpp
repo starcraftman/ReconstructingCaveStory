@@ -73,14 +73,13 @@ int fib(int n) {
 	if (n < 2)
 		return n;
 
-	/* Now must be 2 or greater. */
-	int f_n2 = 0, f_n1 = 1, f_n, t = 1;
-	while(t != n) {
-		f_n = f_n2 + f_n;
+	int f_n2 = 0, f_n1 = 1, f_n = 0, t = 1;
+	while(t++ != n) {
+		f_n = f_n2 + f_n1;
 		f_n2 = f_n1;
 		f_n1 = f_n;
-		t++;
 	}
+
 	return f_n;
 }
 
@@ -109,18 +108,18 @@ TEST(FibTest, HandlesZeroInput) {
 
 TEST(FibTest, HandlesPositiveInput) {
 	EXPECT_EQ(1, fib(1));
-	EXPECT_EQ(3, fib(2));
-	EXPECT_EQ(4, fib(3));
-	EXPECT_EQ(5, fib(5));
+	EXPECT_EQ(1, fib(2));
+	EXPECT_EQ(2, fib(3));
+	EXPECT_EQ(21, fib(8));
 }
 
 /**
  * Main loop of the function.
  */
-int main(void) {
+int main(int argc, char **argv) {
+	::testing::InitGoogleTest(&argc, argv);
 	testAssert();
-	cout << "Test file finished successfully." << std::endl;
-	return 0;
+	return RUN_ALL_TESTS();
 }
 
 
