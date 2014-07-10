@@ -90,7 +90,6 @@ int factorial(int n) {
 	int fact = 1;
 	do {
 		fact *= n;
-		cout << n << '-' << fact << std::endl;
 	} while (n-- != 1);
 
 	return fact;
