@@ -29,6 +29,10 @@ FLAGS = [
     '-x',
     'c++',
     # Includes.
+    '-isystem',
+    '/usr/include',
+    '-isystem',
+    '/usr/local/include',
     '-I',
     './libs/cunit/include',
     '-I',
@@ -36,7 +40,7 @@ FLAGS = [
     '-I',
     './libs/SDL1/include',
     '-I',
-    '/usr/include',
+    './src',
 ]
 
 
