@@ -183,17 +183,3 @@ TEST_F(QueueTest, DequeueWorks) {
 	EXPECT_EQ(1, q2.size());
 }
 
-/**
- * Main loop of the function.
- */
-int main(int argc, char **argv) {
-	::testing::InitGoogleTest(&argc, argv);
-	testAssert();
-	return RUN_ALL_TESTS();
-}
-
-
-/* Notes:
- * Force call to use another version of virtual function: baseP->Item_base::net_price(42);
- *
- */
