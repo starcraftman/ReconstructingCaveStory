@@ -64,7 +64,46 @@ using std::string;
  */
 
 /****************** Class Definitions *********************/
+template <typename E>
+class Queue {
+public:
+	Queue() {};
+	void Enqueue(const E& element) {
+		q.insert(q.begin(), element);
+	};
+	E* Dequeue() { // return null if empty
+		if (q.empty()) {
+			return NULL;
+		} else {
+			E* val = &q.back();
+			q.pop_back();
+			return val;
+		}
 
+	};
+	size_t size() const {
+		return q.size();
+	};
+private:
+	std::vector<E> q;
+};
+
+class QueueTest : public ::testing::Test {
+protected:
+	virtual void SetUp() {
+		int val[] = {1, 2, 3};
+		q1.Enqueue(val[0]);
+		q2.Enqueue(val[1]);
+		q2.Enqueue(val[2]);
+	}
+
+	virtual void TearDown() {
+	}
+
+	Queue<int> q0;
+	Queue<int> q1;
+	Queue<int> q2;
+};
 
 /****************** Global Functions **********************/
 int fib(int n) {
@@ -123,6 +162,25 @@ TEST(FactTest, HandlesPositiveInput) {
 	EXPECT_EQ(6, factorial(3));
 	EXPECT_EQ(720, factorial(6));
 	EXPECT_EQ(5040, factorial(7));
+}
+
+TEST_F(QueueTest, IsEmptyInitially) {
+	EXPECT_EQ(0, q0.size());
+}
+
+TEST_F(QueueTest, DequeueWorks) {
+	int *n = q0.Dequeue();
+	EXPECT_EQ(NULL, n);
+
+	n = q1.Dequeue();
+	ASSERT_TRUE(n != NULL);
+	EXPECT_EQ(1, *n);
+	EXPECT_EQ(0, q1.size());
+
+	n = q2.Dequeue();
+	ASSERT_TRUE(n != NULL);
+	EXPECT_EQ(2, *n);
+	EXPECT_EQ(1, q2.size());
 }
 
 /**
