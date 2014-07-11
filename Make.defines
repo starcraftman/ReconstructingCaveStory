@@ -37,7 +37,7 @@ CXX:=ccache g++
 F_PROF:=-pg # Use in both compile/link.
 F_GCOV:=-fprofile-arcs -ftest-coverage # Use in both compile/link.
 F_DIRECT:=-D_REENTRANT
-F_OPT:=-O2 # -O0-3 for speed, Og for debug with some speed, Os for space.
+F_OPT:=-Og # -O0-3 for speed, Og for debug with some speed, Os for space.
 F_DEBUG:=-ggdb -Wall -Wextra -Winline -pedantic
 # Disabled -Werror for now.
 
@@ -45,9 +45,11 @@ F_DEBUG:=-ggdb -Wall -Wextra -Winline -pedantic
 INC_DIRS:=-I$(LDIR)/include
 
 # Rule Flag Variables
+# C: c/gnu90, c/gnu99, c/gnu11
+# C++: c/gnu++98, c++03, c/gnu++11,
 CFLAGS:=--std=gnu99
 CXXFLAGS:=--std=c++11 #-Weffc++
-CPPFLAGS=$(INC_DIRS) $(F_DEBUG) $(F_DIRECT)
+CPPFLAGS=$(INC_DIRS) $(F_DEBUG) $(F_DIRECT) $(F_OPT)
 LDFLAGS:=-L$(LDIR)/lib
 LIBFLAGS:=$(F_DEBUG) -fPIC
 ARFLAGS:=-rv

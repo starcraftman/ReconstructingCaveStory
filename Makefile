@@ -1,6 +1,13 @@
+# Put this at top of project with Make.defines.
+# Expected layout:
+# /libs -> libraries, with subdirs include, lib, share & bin
+# /src -> src files for main
+# /gen -> generated stuff goes here & objects
+# /test -> test files go here
+
 include Make.defines
 
-.PHONY: all clean run
+.PHONY: all clean run test info
 
 # Target executables to make.
 EXE:=$(ODIR)/cavestory.exe
@@ -12,16 +19,7 @@ T_EXE=$(TDIR)/test.exe
 T_SOURCES=$(wildcard $(TDIR)/*.cpp)
 T_OBJS = $(patsubst %.cpp, %.o, $(T_SOURCES))
 
-# Headers and objects for the executables, currently assumes only 1 of each.
-#H1:=$(addsuffix $(EXT_HXX), $(T1))
-
 all: $(EXE)
-
-$(EXE): $(OBJS)
-	$(CXX) $(LDFLAGS) -o $@ $(OBJS) $(LIBS)
-
-$(ODIR)/%.o: $(SDIR)/%.cpp
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
 
 run: $(EXE)
 	$(EXE)
@@ -29,14 +27,22 @@ run: $(EXE)
 test: $(T_EXE)
 	$(T_EXE)
 
-$(T_EXE): $(T_OBJS)
-	$(CXX) $(LDFLAGS) -o $@ $^ $(LIBS) $(TESTLIBS)
-
 clean:
 	rm -f $(EXE) $(OBJS) $(T_EXE) $(T_OBJS)
 
+# Use this one to dump information to console
 info:
 	$(info $$SOURCES is [${SOURCES}])
+
+# Rules for building
+$(EXE): $(OBJS)
+	$(CXX) $(LDFLAGS) -o $@ $(OBJS) $(LIBS)
+
+$(T_EXE): $(T_OBJS)
+	$(CXX) $(LDFLAGS) -o $@ $^ $(LIBS) $(TESTLIBS)
+
+$(ODIR)/%.o: $(SDIR)/%.cpp
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
 
 # Default Rules:
 # 	$(CC) $(CPPFLAGS) $(CFLAGS) -c
