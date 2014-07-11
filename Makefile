@@ -33,12 +33,13 @@ clean:
 # Use this one to dump information to console
 info:
 	$(info $$SOURCES is [${SOURCES}])
+	$(info $$T_SOURCES is [${T_SOURCES}])
 
 # Rules for building
 $(EXE): $(OBJS)
 	$(CXX) $(LDFLAGS) -o $@ $(OBJS) $(LIBS)
 
-$(T_EXE): $(T_OBJS)
+$(T_EXE): $(T_OBJS) $(filter-out %/main.o, $(OBJS))
 	$(CXX) $(LDFLAGS) -o $@ $^ $(LIBS) $(TESTLIBS)
 
 $(ODIR)/%.o: $(SDIR)/%.cpp
