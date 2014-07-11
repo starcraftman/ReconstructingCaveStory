@@ -13,6 +13,7 @@ DIR:=$(call where-am-i)
 LDIR:=$(DIR)/libs
 ODIR:=$(DIR)/gen
 SDIR:=$(DIR)/src
+TDIR:=$(DIR)/test
 
 # Commands
 # Useful: --no-print-directory
