@@ -16,12 +16,6 @@ import subprocess
 import sys
 import urllib
 import zipfile
-try:
-    from argcomplete import autocomplete
-except ImportError:
-    def autocomplete(dummy):
-        """ Dummy func. """
-        pass
 
 # Classes
 
@@ -181,7 +175,8 @@ def main():
     mesg = """This script sets up the libs for this project."""
     parser = argparse.ArgumentParser(description=mesg,
             formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument('target', nargs='?', default='libs', help='dir to put libs in')
+    parser.add_argument('target', nargs='?', default='libs',
+            help='dir to put libs in')
 
     args = parser.parse_args()  # Default parses argv[1:]
     libdir = os.path.realpath(os.curdir + os.sep + args.target)
