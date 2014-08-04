@@ -14,14 +14,11 @@ import os
 import shutil
 import subprocess
 import sys
+import tarfile
 import urllib
 import zipfile
 
 # Classes
-
-class NotSudo(Exception):
-    """ Throw this if we aren't sudo but need to be. """
-    pass
 
 class Progress(object):
     """ Draw a simple progress bar. """
@@ -105,33 +102,32 @@ def num_jobs():
 
 def build_sdl(libdir):
     """ Build ack from source, move to target dir. """
-    srcdir = 'sdl'
-    srcdir2 = srcdir + '2'
+    srcdir, srcdir2 = 'sdl', 'sdl2'
+    jobs = num_jobs()
+    cmds_sdl1 = ['./autogen.sh',
+            './configure --prefix=%s' % libdir,
+            'make -j%d install' % jobs
+            ]
+    cmds_sdl2 = ['hg update default',
+            './configure --prefix=%s' % libdir,
+            'make -j%d install' % jobs
+            ]
+    build = {srcdir: cmds_sdl1,
+            srcdir2: cmds_sdl2
+            }
 
     try:
         # Fetch code & copy for 2
         get_code('hg clone -u SDL-1.2 http://hg.libsdl.org/SDL', srcdir)
-        cmd = 'cp -r {} {}'.format(srcdir, srcdir + '2').split()
+        cmd = ('cp -r %s %s' % (srcdir, srcdir)).split()
         subprocess.call(cmd)
 
-        # Build sdl1
-        PDir.push(srcdir)
-        subprocess.call('./autogen.sh')
-        cmd = './configure --prefix={}'.format(libdir).split()
-        subprocess.call(cmd)
-        cmd = 'make -j{} install'.format(num_jobs()).split()
-        subprocess.call(cmd)
-        PDir.pop()
-
-        # Build sdl2
-        PDir.push(srcdir2)
-        cmd = 'hg update default'.split()
-        subprocess.call(cmd)
-        cmd = './configure --prefix={}'.format(libdir).split()
-        subprocess.call(cmd)
-        cmd = 'make -j{} install'.format(num_jobs()).split()
-        subprocess.call(cmd)
-        PDir.pop()
+        # Build sdl1 & 2
+        for src in build.keys():
+            PDir.push(src)
+            for cmd in build[src]:
+                subprocess.call(cmd.split())
+            PDir.pop()
     finally:
         shutil.rmtree(srcdir)
         shutil.rmtree(srcdir2)
@@ -140,7 +136,6 @@ def build_gtest(libdir):
     """ Build gtest from source and put in libs. """
     archive = 'gtest.zip'
     url = 'https://googletest.googlecode.com/files/gtest-1.7.0.zip'
-    print(libdir)
 
     try:
         # Fetch program
@@ -164,11 +159,55 @@ def build_gtest(libdir):
         shutil.copytree('include', libdir + os.sep + 'include')
         for fil in glob.glob('lib' + os.sep + '.libs' + os.sep + '*.a'):
             shutil.copy(fil, libdir + os.sep + 'lib')
-
     finally:
         PDir.pop()
         os.remove(archive)
         shutil.rmtree(srcdir)
+
+def build_cunit(libdir):
+    """ Build classic cunit, good test lib for c code. """
+    srcdir = 'cunit'
+    get_code('svn checkout svn://svn.code.sf.net/p/cunit/code/trunk', srcdir)
+
+    # Build & clean
+    PDir.push(srcdir)
+    # Shell true is due to some bug via normal way
+    subprocess.call('./bootstrap {}'.format(libdir), shell=True)
+    cmd = 'make -j{} install'.format(num_jobs()).split()
+    subprocess.call(cmd)
+    PDir.pop()
+
+    shutil.rmtree(srcdir)
+
+def build_boost(libdir):
+    """ Build latest boost release for c++. """
+    url = 'http://sourceforge.net/projects/boost/files/boost/1.55.0/boost_1_55_0.tar.bz2/download'
+    archive = 'download'
+    config = os.path.expanduser('~') + os.sep + 'user-config.jam'
+
+    try:
+        # Fetch program
+        print("Downloading latest zsh source.")
+        cmd = ('wget %s' % url).split()
+        subprocess.call(cmd)
+        tarfile.open(archive).extractall()
+        srcdir = glob.glob('boost_*')[0]
+
+        # Need this for jam to build mpi & graph_parallel.
+        f_conf = open(config, 'w')
+        f_conf.write('using mpi ;')
+        f_conf.close()
+
+        PDir.push(srcdir)
+        cmd = ('./bootstrap.sh --prefix=%s' % libdir).split()
+        subprocess.call(cmd)
+        cmd = './b2 install'.split()
+        subprocess.call(cmd)
+    finally:
+        PDir.pop()
+        shutil.rmtree(srcdir)
+        os.remove(config)
+        os.remove(archive)
 
 def main():
     """ Main function. """
@@ -187,7 +226,9 @@ def main():
     os.makedirs(libdir)
 
     build_gtest(libdir)
-    build_sdl(libdir)
+    #build_sdl(libdir)
+    #build_cunit(libdir)
+    #build_boost(libdir)
 
 if __name__ == '__main__':
     main()
