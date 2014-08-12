@@ -11,45 +11,27 @@ from __future__ import print_function
 import argparse
 import glob
 import os
+import re
 import shutil
 import subprocess
-import sys
 import tarfile
-import urllib
 import zipfile
+
+URL_BOOST = 'http://sourceforge.net/projects/boost/files/boost/1.55.0/\
+boost_1_55_0.tar.bz2/download'
+URL_GTEST = 'https://googletest.googlecode.com/files/gtest-1.7.0.zip'
+
+if os.name == 'posix':
+    NUM_JOBS = int(subprocess.check_output('cat /proc/cpuinfo | \
+        grep processor | wc -l', shell=True))
+else:
+    NUM_JOBS = 2
 
 # Classes
 
-class Progress(object):
-    """ Draw a simple progress bar. """
-    def __init__(self, tick, empty, total_ticks):
-        self.tick = tick
-        self.empty = empty
-        self.total_ticks = total_ticks
-        self.num_ticks = 0
-        self.old_percent = 0
-    def check_percent(self, new_percent):
-        """ Helper, check if passed a point. """
-        if new_percent >= self.old_percent + self.tick_threshold():
-            self.old_percent = new_percent
-            return True
-        else:
-            return False
-    def draw(self):
-        """ Draw a bar for progress after incrementing. """
-        self.num_ticks += 1
-        num_empty = self.total_ticks - self.num_ticks
-        line = "Download Progress: [%s%s]\n" % (self.tick * self.num_ticks,
-            self.empty * num_empty)
-        sys.stdout.write(line)
-        sys.stdout.flush()
-    def tick_threshold(self):
-        """ Return number of % per tick on bar. """
-        return 100 / self.total_ticks
-    @staticmethod
-    def default_prog():
-        """ Factory method, makes a bar with defaults. """
-        return Progress('*', '-', 20)
+class ArchiveException(Exception):
+    """ Archive can't be processed. """
+    pass
 
 class PDir(object):
     """ Pushd analog for personal use. """
@@ -68,146 +50,211 @@ class PDir(object):
 
 # Functions
 
-def gen_report(progress):
-    """ Report hook generator. """
-    def report_down(block_count, bytes_per_block, total_size):
-        """ Simple report hook. """
-        if block_count == 0:
-            print("Download Started")
-        elif total_size < 0:
-            print("Read %d blocks" % block_count)
-        else:
-            total_down = block_count * bytes_per_block
-            percent = (total_down * 100.0) / total_size
-            if total_down >= total_size or progress.check_percent(percent):
-                progress.draw()
-    return report_down
-
-def get_code(command, target):
-    """ Wrapper function to clone repos.
-    Protects against overwriting if target exists.
-    command: The command that would run in bash.
-    target: Where to clone to.
+def get_archive(url, target):
+    """ Fetch an archive from a site. Works on regular ftp & sourceforge.
+    url: location to get archive
+    target: where to extract to
     """
-    cmd = command.split()
-    cmd.append(target)
+    arc_ext = None
+    for ext in ['.tgz', '.tbz2', '.tar.bz2', '.tar.gz', '.rar', '.zip', '.7z']:
+        right = url.rfind(ext)
+        if right != -1:
+            right += len(ext)
+            left = url.rfind(os.sep, 0, right) + 1
+            arc_ext = ext
+            break
+
+    if arc_ext == None:
+        raise ArchiveException
+
+    arc_name = url[left:right]
+
+    cmd = 'wget -O %s %s' % (arc_name, url)
+    subprocess.call(cmd.split())
+    if arc_ext in ['.tgz', '.tbz2', '.tar.bz2', '.tar.gz']:
+        with tarfile.open(arc_name) as tarf:
+            tarf.extractall()
+    elif arc_ext in ['.zip']:
+        with zipfile.ZipFile(arc_name) as zipf:
+            zipf.extractall()
+    else:
+        cmd = 'unarchive ' + arc_name
+        subprocess.call(cmd.split())
+
+    # extracted dir doesn't always match arc_name, glob to be sure
+    arc_front = re.split('[-_]', arc_name)[0] + '*'
+    arc_dir = None
+    for name in glob.glob(arc_front):
+        if name.rfind(arc_ext) == -1:
+            arc_dir = name
+
+    if not os.path.exists(os.path.dirname(target)):
+        os.makedirs(target)
+        os.rmdir(target)
+    os.rename(arc_dir, target)
+    os.remove(arc_name)
+
+def get_code(url, target):
+    """ Wrapper function to clone repos, only executes if target doesn't exist
+    url: The origin to clone
+    target: Where to clone to
+    """
+    cmd = ' %s %s' % (url, target)
+    # Git urls always end in .git
+    if url.find('git') != -1:
+        cmd = 'git clone --depth 1' + cmd
+    # svn always at front of proto
+    elif url.find('svn') != -1:
+        cmd = 'svn checkout' + cmd
+    else:
+        cmd = 'hg clone' + cmd
+
     if not os.path.exists(target):
-        subprocess.call(cmd)
+        subprocess.call(cmd.split())
 
-def num_jobs():
-    """ Use BASH one liner to determine number of threads available. """
-    jobs = subprocess.check_output('cat /proc/cpuinfo | grep "processor"\
-            | wc -l', shell=True)
-    return int(jobs)
+def build_src(build):
+    """ Build a project downloeaded from url. Build is a json described below.
+        Cmds are executed in srcdir, then if globs non-empty copy files as
+        described in glob/target pairs..
+        {
+            'name': 'ack',
+            'check': 'path/to/check',
+            'url' : 'https://github.com/petdance/ack2.git',
+            'tdir': /path/to/install/to,
+            'cmds': [
+                'perl Makefile.PL',
+                'make ack-standalone',
+                'make manifypods'
+            ],
+            'globs': [
+                ('ack-standalone', 'bin/ack'),
+                ('blib/man1/*.1*', 'share/man/man1')
+            ]
+        }
+    """
+    srcdir = '%s/src/%s' % (build['tdir'], build['name'])
 
-def build_sdl(libdir):
-    """ Build ack from source, move to target dir. """
-    srcdir, srcdir2 = 'sdl', 'sdl2'
-    jobs = num_jobs()
-    cmds_sdl1 = ['./autogen.sh',
-            './configure --prefix=%s' % libdir,
-            'make -j%d install' % jobs
-            ]
-    cmds_sdl2 = ['hg update default',
-            './configure --prefix=%s' % libdir,
-            'make -j%d install' % jobs
-            ]
-    build = {srcdir: cmds_sdl1,
-            srcdir2: cmds_sdl2
-            }
+    # Guard if command exists
+    if os.path.exists(build['tdir'] + os.sep + build['check']):
+        return
 
     try:
-        # Fetch code & copy for 2
-        get_code('hg clone -u SDL-1.2 http://hg.libsdl.org/SDL', srcdir)
-        cmd = ('cp -r %s %s' % (srcdir, srcdir)).split()
-        subprocess.call(cmd)
+        get_archive(build['url'], srcdir)
+    except ArchiveException:
+        get_code(build['url'], srcdir)
 
-        # Build sdl1 & 2
-        for src in build.keys():
-            PDir.push(src)
-            for cmd in build[src]:
-                subprocess.call(cmd.split())
-            PDir.pop()
+    try:
+        # Code should be at srcdir by here.
+        PDir.push(srcdir)
+        for cmd in build.get('cmds', []):
+            cmd = cmd.replace('TARGET', build['tdir'])
+            cmd = cmd.replace('JOBS', '%d' % NUM_JOBS)
+            subprocess.call(cmd.split())
+        PDir.pop()
+
+        # Manual copies sometimes required to finish install
+        for pattern, target in build.get('globs', []):
+            dest = build['tdir'] + os.sep + target
+            if dest.endswith('/') and not os.path.exists(dest):
+                os.makedirs(dest)
+
+            for sfile in glob.glob(srcdir + os.sep + pattern):
+                if os.path.isfile(sfile):
+                    shutil.copy(sfile, dest)
     finally:
         shutil.rmtree(srcdir)
-        shutil.rmtree(srcdir2)
+
+    print('Finished building ' + build['name'])
+
+def build_sdl1(libdir):
+    """ Build SDL version 1.xx from source and put in tdir. """
+    build = {
+        'name' : 'SDL',
+        'check': 'lib/libSDL.a',
+        'url'  : 'http://hg.libsdl.org/SDL',
+        'tdir' : libdir,
+        'cmds' : [
+            'hg update SDL-1.2',
+            './autogen.sh',
+            './configure --prefix=TARGET',
+            'make -jJOBS install',
+        ],
+    }
+
+    build_src(build)
+
+def build_sdl2(libdir):
+    """ Build SDL version 2.xx from source and put in tdir. """
+    build = {
+        'name' : 'SDL2',
+        'check': 'lib/libSDL2.a',
+        'url'  : 'http://hg.libsdl.org/SDL',
+        'tdir' : libdir,
+        'cmds' : [
+            './configure --prefix=TARGET',
+            'make -jJOBS install',
+        ],
+    }
+
+    build_src(build)
 
 def build_gtest(libdir):
     """ Build gtest from source and put in libs. """
-    archive = 'gtest.zip'
-    url = 'https://googletest.googlecode.com/files/gtest-1.7.0.zip'
+    build = {
+        'name' : 'gtest',
+        'check': 'lib/libgtest.a',
+        'url'  : URL_GTEST,
+        'tdir' : libdir,
+        'cmds' : [
+            'chmod u+x configure ./scripts/*',
+            './configure --prefix=TARGET',
+            'make',
+        ],
+        'globs': [
+            ('include/gtest/*', 'include/gtest/'),
+            ('include/gtest/internal/*', 'include/gtest/internal/'),
+            ('lib/.libs/*.a', 'lib/'),
+        ],
+    }
 
-    try:
-        # Fetch program
-        print("Downloading gtest source.")
-        prog = Progress.default_prog()
-        zfile = urllib.URLopener()
-        zfile.retrieve(url, archive, gen_report(prog))
-        zipfile.ZipFile(archive).extractall()
-        srcdir = glob.glob('gtest-*')[0]
-
-        # Build & clean
-        PDir.push(srcdir)
-        cmd = 'chmod u+x configure ./scripts/*'.split()
-        subprocess.call(cmd)
-        cmd = './configure --prefix={}'.format(libdir).split()
-        subprocess.call(cmd)
-        subprocess.call('make')
-
-        # Copy out file structure
-        os.mkdir(libdir + os.sep + 'lib')
-        shutil.copytree('include', libdir + os.sep + 'include')
-        for fil in glob.glob('lib' + os.sep + '.libs' + os.sep + '*.a'):
-            shutil.copy(fil, libdir + os.sep + 'lib')
-    finally:
-        PDir.pop()
-        os.remove(archive)
-        shutil.rmtree(srcdir)
+    build_src(build)
 
 def build_cunit(libdir):
     """ Build classic cunit, good test lib for c code. """
-    srcdir = 'cunit'
-    get_code('svn checkout svn://svn.code.sf.net/p/cunit/code/trunk', srcdir)
+    build = {
+        'name' : 'cunit',
+        'check': 'lib/libcunit.a',
+        'url'  : 'svn://svn.code.sf.net/p/cunit/code/trunk',
+        'tdir' : libdir,
+        'cmds' : [
+            'sh ./bootstrap TARGET',
+            'make -jJOBS install',
+        ],
+    }
 
-    # Build & clean
-    PDir.push(srcdir)
-    # Shell true is due to some bug via normal way
-    subprocess.call('./bootstrap {}'.format(libdir), shell=True)
-    cmd = 'make -j{} install'.format(num_jobs()).split()
-    subprocess.call(cmd)
-    PDir.pop()
-
-    shutil.rmtree(srcdir)
+    build_src(build)
 
 def build_boost(libdir):
     """ Build latest boost release for c++. """
-    url = 'http://sourceforge.net/projects/boost/files/boost/1.55.0/boost_1_55_0.tar.bz2/download'
-    archive = 'download'
+    build = {
+        'name' : 'boost',
+        'check': 'lib/libboost_thread.a',
+        'url'  : URL_BOOST,
+        'tdir' : libdir,
+        'cmds' : [
+            './bootstrap.sh --prefix=TARGET',
+            './b2 install',
+        ],
+    }
+
+    # Need this for jam to build mpi & graph_parallel.
     config = os.path.expanduser('~') + os.sep + 'user-config.jam'
-
-    try:
-        # Fetch program
-        print("Downloading latest zsh source.")
-        cmd = ('wget %s' % url).split()
-        subprocess.call(cmd)
-        tarfile.open(archive).extractall()
-        srcdir = glob.glob('boost_*')[0]
-
-        # Need this for jam to build mpi & graph_parallel.
-        f_conf = open(config, 'w')
+    with open(config, 'w') as f_conf:
         f_conf.write('using mpi ;')
-        f_conf.close()
 
-        PDir.push(srcdir)
-        cmd = ('./bootstrap.sh --prefix=%s' % libdir).split()
-        subprocess.call(cmd)
-        cmd = './b2 install'.split()
-        subprocess.call(cmd)
-    finally:
-        PDir.pop()
-        shutil.rmtree(srcdir)
-        os.remove(config)
-        os.remove(archive)
+    build_src(build)
+
+    os.remove(config)
 
 def main():
     """ Main function. """
@@ -220,15 +267,11 @@ def main():
     args = parser.parse_args()  # Default parses argv[1:]
     libdir = os.path.realpath(os.curdir + os.sep + args.target)
 
-    if os.path.exists(libdir):
-        raise OSError('Directory already exists. {}'.format(libdir))
-
-    os.makedirs(libdir)
-
-    build_gtest(libdir)
-    #build_sdl(libdir)
     #build_cunit(libdir)
+    build_gtest(libdir)
     #build_boost(libdir)
+    #build_sdl1(libdir)
+    #build_sdl2(libdir)
 
 if __name__ == '__main__':
     main()
