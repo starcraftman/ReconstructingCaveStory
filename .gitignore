@@ -42,4 +42,4 @@ Thumbs.db
 .*
 !.git*
 libs
-buildCmake
+gen
