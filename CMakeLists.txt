@@ -1,37 +1,50 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 PROJECT(CaveStory C CXX)
 
-#flags for compiling
-#SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -gdb -Wall -Wextra -Winline -pedantic -std=c++11")
-#SET(CMAKE_C_FLAGS "${CMAKE_CXX_FLAGS} -gdb -std=gnu99")
-
+# Variables
+SET(DEBUG_FLAGS "-ggdb -Wall -Wextra -Winline -pedantic")
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -D_REENTRANT ${DEBUG_FLAGS}")
 SET(BOOST_ROOT  "${CMAKE_SOURCE_DIR}/libs")
-SET(GTEST_ROOT  "${CMAKE_SOURCE_DIR}/libs")
+SET(GTEST_ROOT  "${BOOST_ROOT}")
+SET(CAVE_LIB    "cavelib")
 
 FIND_PACKAGE(Boost 1.56.0 REQUIRED)
 FIND_PACKAGE(SDL 1.2 REQUIRED)
-FIND_PACKAGE(GTest REQUIRED)
+FIND_PACKAGE(GTest 1.7 REQUIRED)
 
 INCLUDE_DIRECTORIES(
     ${Boost_INCLUDE_DIR}
     ${SDL_INCLUDE_DIR}
+    "${CMAKE_SOURCE_DIR}/src"
 )
 
-#ADD_SUBDIRECTORY(src)
+ADD_SUBDIRECTORY(src)
+ADD_SUBDIRECTORY(test)
 
-FILE(GLOB_RECURSE SRC_FILES ${PROJECT_SOURCE_DIR}/src/*.cpp)
-FILE(GLOB_RECURSE TEST_FILES ${PROJECT_SOURCE_DIR}/src/*.cpp)
+ADD_LIBRARY(
+    ${CAVE_LIB}
+    SHARED
+    ${CAVE_SOURCES}
+    ${CAVE_HEADERS}
+)
 
-ADD_EXECUTABLE(CaveStory ${SRC_FILES})
-ADD_EXECUTABLE(CaveStoryTest ${SRC_FILES})
+ADD_EXECUTABLE(CaveStory ${CAVE_MAIN})
+ADD_EXECUTABLE(CaveStoryTest ${CAVE_TEST_SOURCES})
 
-TARGET_LINK_LIBRARIES(CaveStory
+TARGET_LINK_LIBRARIES(${CAVE_LIB}
     ${Boost_LIBRARIES}
     ${SDL_LIBRARY}
 )
-
 TARGET_LINK_LIBRARIES(CaveStory
-    ${Boost_LIBRARIES}
-    ${SDL_LIBRARY}
+    ${CAVE_LIB}
+)
+TARGET_LINK_LIBRARIES(CaveStoryTest
+    ${CAVE_LIB}
     ${GTEST_BOTH_LIBRARIES}
 )
+
+# Debug
+#get_cmake_property(_variableNames VARIABLES)
+#foreach (_variableName ${_variableNames})
+    #message(STATUS "${_variableName}=${${_variableName}}")
+#endforeach(kk

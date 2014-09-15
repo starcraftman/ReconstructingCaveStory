@@ -1,0 +1,20 @@
+SET(CAVE_MAIN
+    "${CMAKE_CURRENT_SOURCE_DIR}/main.cpp"
+    PARENT_SCOPE
+)
+
+SET(CAVE_SOURCES
+    ${C_SOURCES}
+    "${CMAKE_CURRENT_SOURCE_DIR}/game.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/sprite.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/graphics.cpp"
+    PARENT_SCOPE
+)
+
+SET(CAVE_HEADERS
+    ${C_HEADERS}
+    "${CMAKE_CURRENT_SOURCE_DIR}/game.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/sprite.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/graphics.hpp"
+    PARENT_SCOPE
+)
