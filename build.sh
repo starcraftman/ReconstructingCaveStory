@@ -2,7 +2,7 @@
 # Run this to build project with cmake
 # Alternative to my normal makefiles
 ROOT=$(readlink -f '.')
-BDIR="./buildCmake"
+BDIR=$ROOT/gen
 SYS=$(uname -a)
 
 usage() {
@@ -12,28 +12,37 @@ usage() {
   test : Run tests."
 }
 
-if [ "$#" -lt 1 ]; then
-  usage
-  exit
-fi
+build() {
+  if [ "x$SYS" == "xLinux" -a ! -d ./libs ]; then
+    ./GetLibs.py gtest boost SDL
+  fi
 
-if [ "clean" == "$1" ]; then
-  rm -rf "$BDIR"
-  exit
-fi
+  if [ ! -f "$BDIR/CaveStory" ]; then
+    pushd "$BDIR"
+    SDLDIR="$ROOT/libs" cmake ..
+    make
+    popd
+  fi
+}
 
-if [ "x$SYS" == "xLinux" -a ! -d ./libs ]; then
-  ./GetLibs.py gtest boost SDL
-fi
-
-mkdir "$BDIR"
-pushd "$BDIR"
-SDLDIR="$ROOT/libs" cmake ..
-make
-popd
-
-if [ "run" == "$1" ]; then
-  ./$BDIR/CaveStory
-elif [ "test" == "$1" ]; then
-  ./$BDIR/CaveStoryTest
-fi
+for arg; do
+  case "$arg" in
+    "--help"|"-h"|"help")
+      usage
+      exit
+      ;;
+    "clean")
+      rm -rf "$BDIR"
+      mkdir -p "$BDIR"
+      touch "$BDIR/DUMMY"
+      ;;
+    "test")
+      build
+      $BDIR/CaveStoryTest
+      ;;
+    *) # Default is to run
+      build
+      $BDIR/CaveStory
+      ;;
+  esac
+done
