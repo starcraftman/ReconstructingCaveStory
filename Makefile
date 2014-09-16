@@ -10,12 +10,12 @@ include Make.defines
 .PHONY: all clean run test info
 
 # Target executables to make.
-EXE:=$(ODIR)/cavestory.exe
+EXE:=$(ODIR)/CaveStory.exe
 SOURCES=$(notdir $(wildcard $(SDIR)/*.cpp))
 OBJS = $(patsubst %.cpp, $(ODIR)/%.o, $(SOURCES))
 
 # Just for tests.
-T_EXE=$(ODIR)/test.exe
+T_EXE=$(ODIR)/CaveStoryTest.exe
 T_SOURCES=$(notdir $(wildcard $(TDIR)/*.cpp))
 T_OBJS = $(patsubst %.cpp, $(ODIR)/%.o, $(T_SOURCES))
 
