@@ -17,12 +17,12 @@ build() {
     ./GetLibs.py gtest boost SDL
   fi
 
-  if [ ! -f "$BDIR/CaveStory" ]; then
     pushd "$BDIR"
-    SDLDIR="$ROOT/libs" cmake ..
+    if [ ! -f "$BDIR/CaveStory" ]; then
+	SDLDIR="$ROOT/libs" cmake ..
+    fi
     make
     popd
-  fi
 }
 
 for arg; do

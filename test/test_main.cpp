@@ -18,13 +18,13 @@
 //#include <list>
 //#include <deque>
 //#include <stack>
-//#include <queue>
+#include <queue>
 //#include <priority_queue>
 //#include <bitset>
 //#include <set> // multiset for multiple keys allowed.
 //#include <map> // multimap for multiple keys allowed.
 //#include <utility> // Has pair for map.
-//#include <algorithm>
+#include <algorithm>
 //#include <numeric>
 //#include <functional> // Functional objects.
 //#include <iterator> // Contains back_inserter function and like.
@@ -33,13 +33,13 @@
 //#include <cstdlib>
 //#include <cstddef>
 //#include <cctype>
-//#include <cstring>
+#include <cstring>
 //#include <cstdio>
 //#include <climits>
 //#include <cassert>
 
 /* Project Headers */
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
 
 /******************* Constants/Macros *********************/
 
@@ -54,16 +54,20 @@ using std::string;
 
 /****************** Class Definitions *********************/
 
-
 /****************** Global Functions **********************/
 /**
  * Main loop of the function.
  */
 int main(int argc, char **argv) {
+	int const *ptr;
+	char * const name = new char[20]();
+	std::string person = "Miss Marple.";
+	std::copy(person.begin(), person.end(), name);
+	printf("The size of %s is: %ld.", name, strlen(name));
+	delete [] name;
 	::testing::InitGoogleTest(&argc, argv);
 	return RUN_ALL_TESTS();
 }
-
 
 /* Notes:
  * Force call to use another version of virtual function: baseP->Item_base::net_price(42);
