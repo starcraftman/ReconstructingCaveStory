@@ -3,7 +3,6 @@
 # Alternative to my normal makefiles
 ROOT=$(readlink -f '.')
 BDIR=$ROOT/gen
-SYS=$(uname -a)
 
 usage() {
   echo "Builds the project. Takes optional args:
@@ -13,16 +12,17 @@ usage() {
 }
 
 build() {
-  if [ "x$SYS" == "xLinux" -a ! -d ./libs ]; then
+  if [ "$(uname -s)" == "Linux" -a ! -d ./libs ]; then
+    echo 'hello'
     ./GetLibs.py gtest boost SDL
   fi
 
-    pushd "$BDIR"
-    if [ ! -f "$BDIR/CaveStory" ]; then
-	SDLDIR="$ROOT/libs" cmake ..
-    fi
-    make
-    popd
+  pushd "$BDIR"
+  if [ ! -f "$BDIR/CaveStory" ]; then
+    SDLDIR="$ROOT/libs" cmake ..
+  fi
+  make
+  popd
 }
 
 for arg; do
