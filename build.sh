@@ -13,7 +13,6 @@ usage() {
 
 build() {
   if [ "$(uname -s)" == "Linux" -a ! -d ./libs ]; then
-    echo 'hello'
     ./GetLibs.py gtest boost SDL
   fi
 
