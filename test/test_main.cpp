@@ -59,12 +59,6 @@ using std::string;
  * Main loop of the function.
  */
 int main(int argc, char **argv) {
-	int const *ptr;
-	char * const name = new char[20]();
-	std::string person = "Miss Marple.";
-	std::copy(person.begin(), person.end(), name);
-	printf("The size of %s is: %ld.", name, strlen(name));
-	delete [] name;
 	::testing::InitGoogleTest(&argc, argv);
 	return RUN_ALL_TESTS();
 }
