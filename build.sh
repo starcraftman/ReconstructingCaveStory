@@ -17,7 +17,7 @@ build() {
   fi
 
   pushd "$BDIR"
-  if [ ! -d "$BDIR" ]; then
+  if [ ! -f "$BDIR/CMakeCache.txt" ]; then
     SDLDIR="$ROOT/libs" cmake ..
   fi
   make
