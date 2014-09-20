@@ -17,7 +17,7 @@ build() {
   fi
 
   pushd "$BDIR"
-  if [ ! -f "$BDIR/CaveStory" ]; then
+  if [ ! -d "$BDIR" ]; then
     SDLDIR="$ROOT/libs" cmake ..
   fi
   make
