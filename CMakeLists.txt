@@ -6,6 +6,7 @@ SET(DEBUG_FLAGS "-ggdb -Wall -Wextra -Winline -pedantic")
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -D_REENTRANT ${DEBUG_FLAGS}")
 SET(BOOST_ROOT  "${CMAKE_SOURCE_DIR}/libs")
 SET(GTEST_ROOT  "${BOOST_ROOT}")
+SET(ENV{SDLDIR} "${BOOST_ROOT}")
 SET(CAVE_LIB    "cavelib")
 
 FIND_PACKAGE(Boost 1.56.0 REQUIRED)
@@ -44,7 +45,7 @@ TARGET_LINK_LIBRARIES(CaveStoryTest
 )
 
 # Debug
-#get_cmake_property(_variableNames VARIABLES)
-#foreach (_variableName ${_variableNames})
-    #message(STATUS "${_variableName}=${${_variableName}}")
-#endforeach(kk
+#GET_CMAKE_PROPERTY(_variablenames variables)
+#FOREACH (_variablename ${_variablenames})
+    #MESSAGE(STATUS "${_variableName}=${${_variableName}}")
+#ENDFOREACH(_variablename)

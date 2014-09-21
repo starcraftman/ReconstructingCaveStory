@@ -18,7 +18,7 @@ build() {
 
   pushd "$BDIR"
   if [ ! -f "$BDIR/CMakeCache.txt" ]; then
-    SDLDIR="$ROOT/libs" cmake ..
+    cmake ..
   fi
   make
   popd
