@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Run this to build project with cmake
 # Alternative to my normal makefiles
-ROOT=$(readlink -f '.')
+ROOT=$(readlink -f $(dirname $0))
 BDIR=$ROOT/gen
 
 usage() {
