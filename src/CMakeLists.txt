@@ -4,7 +4,7 @@ SET(CAVE_MAIN
 )
 
 SET(CAVE_SOURCES
-    ${C_SOURCES}
+    ${CAVE_SOURCES}
     "${CMAKE_CURRENT_SOURCE_DIR}/game.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/sprite.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/graphics.cpp"
@@ -12,7 +12,7 @@ SET(CAVE_SOURCES
 )
 
 SET(CAVE_HEADERS
-    ${C_HEADERS}
+    ${CAVE_HEADERS}
     "${CMAKE_CURRENT_SOURCE_DIR}/game.hpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/sprite.hpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/graphics.hpp"
