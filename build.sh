@@ -26,16 +26,16 @@ build() {
 
 for arg; do
   case "$arg" in
-    "--help"|"-h"|"help")
+    *help|-h)
       usage
       exit
       ;;
-    "clean")
+    clean)
       rm -rf "$BDIR"
       mkdir -p "$BDIR"
       touch "$BDIR/DUMMY"
       ;;
-    "test")
+    test)
       build
       $BDIR/CaveStoryTest
       ;;
