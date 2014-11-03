@@ -37,11 +37,11 @@ for arg; do
       ;;
     test)
       build
-      $BDIR/CaveStoryTest
+      $BDIR/test/CaveStoryTest
       ;;
     *) # Default is to run
       build
-      $BDIR/CaveStory
+      $BDIR/src/CaveStory
       ;;
   esac
 done
